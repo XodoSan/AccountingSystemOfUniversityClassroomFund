@@ -5,6 +5,12 @@ VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingSystemOfUniversityClassroomFundAPI", "AccountingSystemOfUniversityClassroomFundAPI\AccountingSystemOfUniversityClassroomFundAPI.csproj", "{CAE9F358-2A6F-4C69-BADF-ADF2C812E530}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{F08252BD-B292-47D7-8CB4-D94CD6A8D1AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{87694063-CF05-46E9-B6F2-D3EC3E59253D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{2CB58DF5-0363-46F8-BD2A-81F9B4125C45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{CAE9F358-2A6F-4C69-BADF-ADF2C812E530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAE9F358-2A6F-4C69-BADF-ADF2C812E530}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAE9F358-2A6F-4C69-BADF-ADF2C812E530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F08252BD-B292-47D7-8CB4-D94CD6A8D1AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F08252BD-B292-47D7-8CB4-D94CD6A8D1AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F08252BD-B292-47D7-8CB4-D94CD6A8D1AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F08252BD-B292-47D7-8CB4-D94CD6A8D1AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87694063-CF05-46E9-B6F2-D3EC3E59253D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87694063-CF05-46E9-B6F2-D3EC3E59253D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87694063-CF05-46E9-B6F2-D3EC3E59253D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87694063-CF05-46E9-B6F2-D3EC3E59253D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CB58DF5-0363-46F8-BD2A-81F9B4125C45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CB58DF5-0363-46F8-BD2A-81F9B4125C45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CB58DF5-0363-46F8-BD2A-81F9B4125C45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CB58DF5-0363-46F8-BD2A-81F9B4125C45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

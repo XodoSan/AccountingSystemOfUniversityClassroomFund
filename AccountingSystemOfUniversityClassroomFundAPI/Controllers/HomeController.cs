@@ -4,12 +4,12 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HomeController : ControllerBase
+    public class InitController : ControllerBase
     {
         [HttpGet]
-        public string HelloWorld()
+        public string InitMethod()
         {
-            return "<h1> Hello world </h1>";
+            return "Init controller works!";
         }
     }
 }
