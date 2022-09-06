@@ -1,16 +1,30 @@
-var builder = WebApplication.CreateBuilder(args);
+using Domain.Constants;
+using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
-
-app.UseStaticFiles();
-app.UseRouting();
-
-app.UseEndpoints(endpoints =>
+internal class Program
 {
-    endpoints.MapControllers();
-});
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddControllers();
 
-app.Run();
+        var app = builder.Build();
+        app.UseStaticFiles();
+        app.UseRouting();
+
+        var configBuilder = new ConfigurationBuilder();
+        IConfiguration config = configBuilder.Build();
+        string connectionString = config.GetConnectionString(Constant.DatabaseName);
+
+        IServiceCollection services = new ServiceCollection();
+        services.AddDbContext<AppDBContext>(options => options.UseNpgsql(connectionString));
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+
+        app.Run();
+    }
+}

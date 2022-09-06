@@ -1,10 +1,13 @@
-﻿namespace Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Entities
 {
     public class Equipment
     {
+        [Key]
+        public int SerialNumber { get; set; }
         public string Name { get; set; }
         public int InventoryNumber { get; set; }
-        public int SerialNumber { get; set; }
         public Worker FinanciallyResponsiblePerson { get; set; }
         public DateTime PurchaseDate { get; set; }
         public DateTime CommissioningDate { get; set; }

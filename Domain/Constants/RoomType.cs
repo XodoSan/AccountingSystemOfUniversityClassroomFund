@@ -4,6 +4,7 @@
     {
         Lecture,
         For_partical_training,
-        Gym
+        Gym,
+        Canteen
     }
 }
