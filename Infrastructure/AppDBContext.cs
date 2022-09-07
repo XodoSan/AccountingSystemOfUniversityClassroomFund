@@ -8,12 +8,6 @@ namespace Infrastructure
         public AppDBContext(DbContextOptions<AppDBContext> options) 
             : base(options) {}
 
-        public DbSet<Worker> workers { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.HasDefaultSchema("public");
-            base.OnModelCreating(modelBuilder);
-        }
+        public DbSet<Room> Rooms { get; set; }
     }
 }
