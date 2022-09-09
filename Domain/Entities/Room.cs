@@ -13,6 +13,7 @@ namespace Domain.Entities
         public Subdivision Owner { get; set; }
         public int Capacity { get; set; }
         public int Floor { get; set; }
+        public List<Equipment> RoomEquipment { get; set; }
         public string SubdivisionName { get; set; }
         public string UniversityName { get; set; }
     }
