@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Domain.Entities
+﻿namespace Domain.Entities
 {
-    public class UniversityBilding
+    public class UniversityBuilding
     {
-        [Key]
         public string Name { get; set; }
         public string Adress { get; set; }
         public int StoreysNumber { get; set; }
         public int FoundationYear { get; set; }
+        public List<Room> IncomingRooms { get; set; }
     }
 }
