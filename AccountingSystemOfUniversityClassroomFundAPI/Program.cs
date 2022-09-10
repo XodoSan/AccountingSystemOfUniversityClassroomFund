@@ -1,8 +1,10 @@
 using Application.Services;
+using Application.Tools;
 using Domain.Constants;
 using Domain.Repositories;
 using Infrastructure;
 using Infrastructure.Repositories;
+using Infrastructure.Tools;
 using Microsoft.EntityFrameworkCore;
 
 public class Program
@@ -12,13 +14,16 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
-        builder.Services.AddScoped<IAuditoriumFundService, AuditoriumFundService>();
-        builder.Services.AddScoped<IAuditoriumFundRepository, AuditoriumFundRepository>();
+        builder.Services.AddScoped<IClassroomFundService, ClassroomFundService>();
+        builder.Services.AddScoped<IClassroomFundRepository, ClassroomFundRepository>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         IConfiguration config = GetConfig();
         string connectionString = config.GetConnectionString(Constant.DatabaseName);
         builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(connectionString, 
             x => x.MigrationsAssembly("Infrastructure")));
+
+        builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
         var app = builder.Build();
         app.UseStaticFiles();
