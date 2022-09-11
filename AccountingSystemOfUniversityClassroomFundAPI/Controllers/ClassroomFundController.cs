@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
 {
-    [Route("api/[controller]/{universityName}")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ClassroomFundController : ControllerBase
     {
@@ -18,10 +18,17 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost]
+        [HttpPost("{universityName}")]
         public void AddRoom([FromRoute] string universityName, [FromBody] RoomDTO roomDTO)
         {
             _fundService.AddRoom(universityName, roomDTO);
+            _unitOfWork.Commit();
+        }
+
+        [HttpPost]
+        public void AddUniversityBuilding([FromBody] UniversityBuildingDTO universityBuildingDTO)
+        {
+            _fundService.AddUniversityBuilding(universityBuildingDTO);
             _unitOfWork.Commit();
         }
     }

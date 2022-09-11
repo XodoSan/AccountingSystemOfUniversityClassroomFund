@@ -22,9 +22,6 @@ namespace Infrastructure.Cofigurations
                 .WithMany()
                 .HasForeignKey(item => item.SubdivisionName)
                 .IsRequired();
-            builder.HasMany(item => item.RoomEquipment)
-                .WithOne()
-                .HasForeignKey(item => item.RoomNumber);
         }
     }
 }

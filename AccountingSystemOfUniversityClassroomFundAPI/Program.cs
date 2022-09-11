@@ -1,3 +1,4 @@
+using Application.DTOs.Mapping;
 using Application.Services;
 using Application.Tools;
 using Domain.Constants;
@@ -23,7 +24,7 @@ public class Program
         builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(connectionString, 
             x => x.MigrationsAssembly("Infrastructure")));
 
-        builder.Services.AddAutoMapper(typeof(Program).Assembly);
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
 
         var app = builder.Build();
         app.UseStaticFiles();

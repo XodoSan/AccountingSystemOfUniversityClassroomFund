@@ -23,10 +23,16 @@ namespace Application.Services
 
         public void AddRoom(string universityName, RoomDTO roomDTO)
         {
-            ConfigStorage.currentUniversityName = universityName;
             Room room = _mapper.Map<Room>(roomDTO);
+            room.UniversityName = universityName;
 
             _fundRepository.AddRoom(room);
+        }
+
+        public void AddUniversityBuilding(UniversityBuildingDTO universityBuildingDTO)
+        {
+            UniversityBuilding universityBuilding = _mapper.Map<UniversityBuilding>(universityBuildingDTO);
+            _fundRepository.AddUniversityBuilding(universityBuilding);
         }
     }
 }

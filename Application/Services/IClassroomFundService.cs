@@ -7,5 +7,6 @@ namespace Application.Services
     {
         public List<Room> GetAllCurrentUniversityRooms(string universityName);
         public void AddRoom(string universityName, RoomDTO roomDTO);
+        public void AddUniversityBuilding(UniversityBuildingDTO universityBuildingDTO);
     }
 }

@@ -30,5 +30,10 @@ namespace Infrastructure.Repositories
         {
             _context.Set<Room>().Add(room);
         }
+
+        public void AddUniversityBuilding(UniversityBuilding universityBuilding)
+        {
+            _context.Set<UniversityBuilding>().Add(universityBuilding);
+        }
     }
 }

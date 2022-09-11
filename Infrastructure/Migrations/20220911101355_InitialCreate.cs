@@ -1,4 +1,5 @@
 ﻿using System;
+using Domain.Constants;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,6 +11,10 @@ namespace Infrastructure.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:purpose", "educational,no_educational")
+                .Annotation("Npgsql:Enum:room_type", "lecture,for_partical_training,gym,canteen");
+
             migrationBuilder.CreateTable(
                 name: "EquipmentMovementHistory",
                 columns: table => new
@@ -73,8 +78,8 @@ namespace Infrastructure.Migrations
                     Number = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Purpose = table.Column<int>(type: "integer", nullable: false),
-                    RoomType = table.Column<int>(type: "integer", nullable: false),
+                    Purpose = table.Column<Purpose>(type: "purpose", nullable: false),
+                    RoomType = table.Column<RoomType>(type: "room_type", nullable: false),
                     Area = table.Column<int>(type: "integer", nullable: false),
                     FloorPlan = table.Column<string>(type: "text", nullable: false),
                     OwnerName = table.Column<string>(type: "text", nullable: false),
@@ -156,7 +161,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Instruction = table.Column<string>(type: "text", nullable: false),
-                    Purpose = table.Column<int>(type: "integer", nullable: false),
+                    Purpose = table.Column<Purpose>(type: "purpose", nullable: false),
                     EquipmentInventoryNumber = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

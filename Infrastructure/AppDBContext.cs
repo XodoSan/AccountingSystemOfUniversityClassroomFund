@@ -1,15 +1,23 @@
-﻿using Infrastructure.Cofigurations;
+﻿using Domain.Constants;
+using Infrastructure.Cofigurations;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Infrastructure
 {
     public class AppDBContext : DbContext
     {
         public AppDBContext(DbContextOptions<AppDBContext> options)
-            : base(options) { }
+            : base(options) 
+        {
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<Purpose>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<RoomType>();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasPostgresEnum<Purpose>();
+            modelBuilder.HasPostgresEnum<RoomType>();
             modelBuilder.ApplyConfiguration(new EquipmentConfiguration());
             modelBuilder.ApplyConfiguration(new EquipmentCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new EquipmentMovementHistoryConfiguration());
