@@ -3,10 +3,10 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
 
-namespace Application.Services
+namespace Application.Services.ClassroomFundService
 {
     public class ClassroomFundService : IClassroomFundService
-    { 
+    {
         private readonly IClassroomFundRepository _fundRepository;
         private readonly IMapper _mapper;
 
@@ -21,10 +21,11 @@ namespace Application.Services
             return _fundRepository.GetAllCurrentUniversityRooms(universityName);
         }
 
-        public void AddRoom(string universityName, RoomDTO roomDTO)
+        public void AddRoomInUniversity(string universityName, RoomDTO roomDTO)
         {
             Room room = _mapper.Map<Room>(roomDTO);
             room.UniversityName = universityName;
+            room.Owner.UniversityName = universityName;
 
             _fundRepository.AddRoom(room);
         }
@@ -33,6 +34,13 @@ namespace Application.Services
         {
             UniversityBuilding universityBuilding = _mapper.Map<UniversityBuilding>(universityBuildingDTO);
             _fundRepository.AddUniversityBuilding(universityBuilding);
+        }
+
+        public void AddSubdivisionInUniversity(string universityName, SubdivisionDTO subdivisionDTO)
+        {
+            Subdivision subdivision = _mapper.Map<Subdivision>(subdivisionDTO);
+            subdivision.UniversityName = universityName;
+            _fundRepository.AddSubdivision(subdivision);
         }
     }
 }

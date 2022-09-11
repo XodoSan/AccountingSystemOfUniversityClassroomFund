@@ -19,13 +19,6 @@ namespace Infrastructure.Repositories
                 .ToList();
         }
 
-        public List<Equipment> GetAllCurrentRoomEquipment(int roomNumber)
-        {
-            return _context.Set<Equipment>()
-                .Where(equipment => equipment.RoomNumber == roomNumber)
-                .ToList();
-        }
-
         public void AddRoom(Room room)
         {
             _context.Set<Room>().Add(room);
@@ -34,6 +27,11 @@ namespace Infrastructure.Repositories
         public void AddUniversityBuilding(UniversityBuilding universityBuilding)
         {
             _context.Set<UniversityBuilding>().Add(universityBuilding);
+        }
+
+        public void AddSubdivision(Subdivision subdivision)
+        {
+            _context.Set<Subdivision>().Add(subdivision);
         }
     }
 }

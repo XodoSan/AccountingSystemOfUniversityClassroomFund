@@ -1,8 +1,7 @@
 ﻿namespace Application.DTOs
 {
-    public class SubdivisionDTO
+    public class EquipmentCategoryDTO
     {
         public string Name { get; set; }
-        public string? UniversityName { get; set; }
     }
 }

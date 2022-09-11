@@ -1,5 +1,5 @@
 ﻿using Application.DTOs;
-using Application.Services;
+using Application.Services.ClassroomFundService;
 using Infrastructure.Tools;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,17 +18,24 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("{universityName}")]
+        [HttpPost("add/room/{universityName}")]
         public void AddRoom([FromRoute] string universityName, [FromBody] RoomDTO roomDTO)
         {
-            _fundService.AddRoom(universityName, roomDTO);
+            _fundService.AddRoomInUniversity(universityName, roomDTO);
             _unitOfWork.Commit();
         }
 
-        [HttpPost]
+        [HttpPost("add/university_building")]
         public void AddUniversityBuilding([FromBody] UniversityBuildingDTO universityBuildingDTO)
         {
             _fundService.AddUniversityBuilding(universityBuildingDTO);
+            _unitOfWork.Commit();
+        }
+
+        [HttpPost("add/subdivision/{universityName}")]
+        public void AddSubdivisionInUniversity([FromRoute] string universityName, [FromBody] SubdivisionDTO subdivisionDTO)
+        {
+            _fundService.AddSubdivisionInUniversity(universityName, subdivisionDTO);
             _unitOfWork.Commit();
         }
     }

@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public int EquipmentAmount { get; set; }
-        public int EquipmentInventoryNumber { get; set; }
+        public List<Equipment> CurrentCategoryEquipments { get; set; }
     }
 }

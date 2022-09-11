@@ -1,5 +1,6 @@
 using Application.DTOs.Mapping;
-using Application.Services;
+using Application.Services.ClassroomFundService;
+using Application.Services.EquipmentService;
 using Application.Tools;
 using Domain.Constants;
 using Domain.Repositories;
@@ -17,6 +18,8 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddScoped<IClassroomFundService, ClassroomFundService>();
         builder.Services.AddScoped<IClassroomFundRepository, ClassroomFundRepository>();
+        builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+        builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         IConfiguration config = GetConfig();
@@ -27,6 +30,7 @@ public class Program
         builder.Services.AddAutoMapper(typeof(MappingProfile));
 
         var app = builder.Build();
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         app.UseStaticFiles();
         app.UseRouting();
 

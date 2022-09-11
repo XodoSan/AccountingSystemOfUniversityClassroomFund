@@ -18,10 +18,9 @@ namespace Infrastructure.Cofigurations
             builder.Property(item => item.Capacity).IsRequired();
             builder.Property(item => item.Floor).IsRequired();
             builder.Property(item => item.FloorPlan).IsRequired();
-            builder.HasOne(item => item.Owner)
-                .WithMany()
-                .HasForeignKey(item => item.SubdivisionName)
-                .IsRequired();
+            builder.HasMany(item => item.RoomEquipment)
+                .WithOne()
+                .HasForeignKey(item => item.RoomNumber);
         }
     }
 }

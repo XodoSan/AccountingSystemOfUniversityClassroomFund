@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220911101355_InitialCreate")]
+    [Migration("20220911201135_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,16 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("InventoryNumber"));
 
-                    b.Property<DateTimeOffset>("CommissioningDate")
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CommissioningDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EquipmentCategoryName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -45,7 +53,7 @@ namespace Infrastructure.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.Property<DateTimeOffset>("PurchaseDate")
+                    b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("RoomNumber")
@@ -55,6 +63,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("InventoryNumber");
+
+                    b.HasIndex("CategoryName");
+
+                    b.HasIndex("EquipmentCategoryName");
 
                     b.HasIndex("RoomNumber");
 
@@ -69,13 +81,7 @@ namespace Infrastructure.Migrations
                     b.Property<int>("EquipmentAmount")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EquipmentInventoryNumber")
-                        .HasColumnType("integer");
-
                     b.HasKey("Name");
-
-                    b.HasIndex("EquipmentInventoryNumber")
-                        .IsUnique();
 
                     b.ToTable("EquipmentCategory", (string)null);
                 });
@@ -94,7 +100,7 @@ namespace Infrastructure.Migrations
                     b.Property<int>("EquipmentInventoryNumber")
                         .HasColumnType("integer");
 
-                    b.Property<DateTimeOffset>("MovementTime")
+                    b.Property<DateTime>("MovementTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("PreviousRoomNumber")
@@ -113,7 +119,7 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTimeOffset>("ChangeTime")
+                    b.Property<DateTime>("ChangeTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CurrentFinanciallyResponsiblePersonId")
@@ -186,7 +192,13 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<string>("UniversityName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Name");
+
+                    b.HasIndex("UniversityName");
 
                     b.ToTable("Subdivision", (string)null);
                 });
@@ -271,20 +283,25 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Equipment", b =>
                 {
+                    b.HasOne("Domain.Entities.EquipmentCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.EquipmentCategory", null)
+                        .WithMany("CurrentCategoryEquipments")
+                        .HasForeignKey("EquipmentCategoryName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entities.Room", null)
                         .WithMany("RoomEquipment")
                         .HasForeignKey("RoomNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("Domain.Entities.EquipmentCategory", b =>
-                {
-                    b.HasOne("Domain.Entities.Equipment", null)
-                        .WithOne("Category")
-                        .HasForeignKey("Domain.Entities.EquipmentCategory", "EquipmentInventoryNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Domain.Entities.Room", b =>
@@ -308,6 +325,15 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Subdivision", b =>
+                {
+                    b.HasOne("Domain.Entities.UniversityBuilding", null)
+                        .WithMany("IncomingSubdivisions")
+                        .HasForeignKey("UniversityName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Usage", b =>
@@ -336,14 +362,16 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Equipment", b =>
                 {
-                    b.Navigation("Category")
-                        .IsRequired();
-
                     b.Navigation("FinanciallyResponsiblePerson")
                         .IsRequired();
 
                     b.Navigation("WhereUsed")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.EquipmentCategory", b =>
+                {
+                    b.Navigation("CurrentCategoryEquipments");
                 });
 
             modelBuilder.Entity("Domain.Entities.Room", b =>
@@ -361,6 +389,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.UniversityBuilding", b =>
                 {
                     b.Navigation("IncomingRooms");
+
+                    b.Navigation("IncomingSubdivisions");
                 });
 #pragma warning restore 612, 618
         }

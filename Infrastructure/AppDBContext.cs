@@ -1,4 +1,5 @@
 ﻿using Domain.Constants;
+using Domain.Entities;
 using Infrastructure.Cofigurations;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -7,8 +8,7 @@ namespace Infrastructure
 {
     public class AppDBContext : DbContext
     {
-        public AppDBContext(DbContextOptions<AppDBContext> options)
-            : base(options) 
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options) 
         {
             NpgsqlConnection.GlobalTypeMapper.MapEnum<Purpose>();
             NpgsqlConnection.GlobalTypeMapper.MapEnum<RoomType>();
@@ -16,6 +16,7 @@ namespace Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Room>().Ignore(item => item.Owner);
             modelBuilder.HasPostgresEnum<Purpose>();
             modelBuilder.HasPostgresEnum<RoomType>();
             modelBuilder.ApplyConfiguration(new EquipmentConfiguration());

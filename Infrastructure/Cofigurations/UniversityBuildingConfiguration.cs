@@ -18,6 +18,10 @@ namespace Infrastructure.Cofigurations
                 .WithOne()
                 .HasForeignKey(item => item.UniversityName)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(item => item.IncomingSubdivisions)
+                .WithOne()
+                .HasForeignKey(item => item.UniversityName)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

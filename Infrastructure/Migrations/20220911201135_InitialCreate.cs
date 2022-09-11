@@ -16,12 +16,24 @@ namespace Infrastructure.Migrations
                 .Annotation("Npgsql:Enum:room_type", "lecture,for_partical_training,gym,canteen");
 
             migrationBuilder.CreateTable(
+                name: "EquipmentCategory",
+                columns: table => new
+                {
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    EquipmentAmount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EquipmentCategory", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EquipmentMovementHistory",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MovementTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    MovementTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EquipmentInventoryNumber = table.Column<int>(type: "integer", nullable: false),
                     PreviousRoomNumber = table.Column<int>(type: "integer", nullable: false),
                     CurrentRoomNumber = table.Column<int>(type: "integer", nullable: false)
@@ -37,24 +49,13 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ChangeTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ChangeTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     PreviousFinanciallyResponsiblePersonId = table.Column<int>(type: "integer", nullable: false),
                     CurrentFinanciallyResponsiblePersonId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FinanciallyResponsiblePersonChangeHistory", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subdivision",
-                columns: table => new
-                {
-                    Name = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subdivision", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +70,24 @@ namespace Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UniversityBuilding", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subdivision",
+                columns: table => new
+                {
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    UniversityName = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subdivision", x => x.Name);
+                    table.ForeignKey(
+                        name: "FK_Subdivision_UniversityBuilding_UniversityName",
+                        column: x => x.UniversityName,
+                        principalTable: "UniversityBuilding",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,38 +138,33 @@ namespace Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SerialNumber = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    PurchaseDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CommissioningDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    PurchaseDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CommissioningDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
+                    CategoryName = table.Column<string>(type: "text", nullable: false),
+                    EquipmentCategoryName = table.Column<string>(type: "text", nullable: false),
                     RoomNumber = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Equipment", x => x.InventoryNumber);
                     table.ForeignKey(
+                        name: "FK_Equipment_EquipmentCategory_CategoryName",
+                        column: x => x.CategoryName,
+                        principalTable: "EquipmentCategory",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Equipment_EquipmentCategory_EquipmentCategoryName",
+                        column: x => x.EquipmentCategoryName,
+                        principalTable: "EquipmentCategory",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Equipment_Room_RoomNumber",
                         column: x => x.RoomNumber,
                         principalTable: "Room",
                         principalColumn: "Number",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EquipmentCategory",
-                columns: table => new
-                {
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    EquipmentAmount = table.Column<int>(type: "integer", nullable: false),
-                    EquipmentInventoryNumber = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EquipmentCategory", x => x.Name);
-                    table.ForeignKey(
-                        name: "FK_EquipmentCategory_Equipment_EquipmentInventoryNumber",
-                        column: x => x.EquipmentInventoryNumber,
-                        principalTable: "Equipment",
-                        principalColumn: "InventoryNumber",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -204,15 +218,19 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Equipment_CategoryName",
+                table: "Equipment",
+                column: "CategoryName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Equipment_EquipmentCategoryName",
+                table: "Equipment",
+                column: "EquipmentCategoryName");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Equipment_RoomNumber",
                 table: "Equipment",
                 column: "RoomNumber");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EquipmentCategory_EquipmentInventoryNumber",
-                table: "EquipmentCategory",
-                column: "EquipmentInventoryNumber",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Room_OwnerName",
@@ -227,6 +245,11 @@ namespace Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Room_UniversityName",
                 table: "Room",
+                column: "UniversityName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subdivision_UniversityName",
+                table: "Subdivision",
                 column: "UniversityName");
 
             migrationBuilder.CreateIndex(
@@ -250,9 +273,6 @@ namespace Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EquipmentCategory");
-
-            migrationBuilder.DropTable(
                 name: "EquipmentMovementHistory");
 
             migrationBuilder.DropTable(
@@ -266,6 +286,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Equipment");
+
+            migrationBuilder.DropTable(
+                name: "EquipmentCategory");
 
             migrationBuilder.DropTable(
                 name: "Room");
