@@ -5,5 +5,6 @@ namespace Application.Services.EquipmentService
     public interface IEquipmentService
     {
         public void AddEquipmentInRoom(int roomNumber, EquipmentDTO equipmentDTO);
+        public void UpdateEquipmentFinanciallyResponsiblePerson(EquipmentDTO equipmentDTO);
     }
 }

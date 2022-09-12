@@ -14,6 +14,8 @@ namespace Infrastructure.Cofigurations
                 .ValueGeneratedOnAdd();
             builder.Property(item => item.Age).IsRequired();
             builder.Property(item => item.FullName).IsRequired();
+            builder.Property(item => item.SubdivisionName).IsRequired();
+            builder.Property(item => item.EquipmentInventoryNumber).IsRequired(false);
         }
     }
 }

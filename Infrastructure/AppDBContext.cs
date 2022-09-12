@@ -16,9 +16,29 @@ namespace Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Room>().Ignore(item => item.Owner);
+            modelBuilder.Entity<Room>()
+                .Ignore(item => item.Owner)
+                .Ignore(item => item.RoomEquipment);
+
+            modelBuilder.Entity<Equipment>()
+                .Ignore(item => item.FinanciallyResponsiblePerson)
+                .Ignore(item => item.Category)
+                .Ignore(item => item.WhereUsed);
+
+            modelBuilder.Entity<UniversityBuilding>()
+                .Ignore(item => item.IncomingRooms)
+                .Ignore(item => item.IncomingSubdivisions);
+
+            modelBuilder.Entity<EquipmentCategory>()
+                .Ignore(item => item.CurrentCategoryEquipments);
+
+            modelBuilder.Entity<Subdivision>()
+                .Ignore(item => item.IncomingRooms)
+                .Ignore(item => item.IncomingWorkers);
+
             modelBuilder.HasPostgresEnum<Purpose>();
             modelBuilder.HasPostgresEnum<RoomType>();
+
             modelBuilder.ApplyConfiguration(new EquipmentConfiguration());
             modelBuilder.ApplyConfiguration(new EquipmentCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new EquipmentMovementHistoryConfiguration());

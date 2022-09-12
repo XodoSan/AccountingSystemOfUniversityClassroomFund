@@ -42,7 +42,8 @@ namespace Application.DTOs.Mapping
                 .ReverseMap();
 
             this.CreateMap<UsageDTO, Usage>();
-            this.CreateMap<WorkerDTO, Worker>();
+            this.CreateMap<WorkerDTO, Worker>()
+                .ForMember(dst => dst.EquipmentInventoryNumber, opt => opt.NullSubstitute(null));
         }
     }
 }

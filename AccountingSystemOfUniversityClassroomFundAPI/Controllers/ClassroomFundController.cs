@@ -33,7 +33,7 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         }
 
         [HttpPost("add/subdivision/{universityName}")]
-        public void AddSubdivisionInUniversity([FromRoute] string universityName, [FromBody] SubdivisionDTO subdivisionDTO)
+        public void AddSubdivision([FromRoute] string universityName, [FromBody] SubdivisionDTO subdivisionDTO)
         {
             _fundService.AddSubdivisionInUniversity(universityName, subdivisionDTO);
             _unitOfWork.Commit();
