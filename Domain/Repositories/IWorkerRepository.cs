@@ -6,5 +6,6 @@ namespace Domain.Repositories
     {
         public void AddWorker(Worker worker);
         public Worker GetWorkerById(int workerId);
+        public Worker GetWorkerByEquipmentInventoryNumber(int equipmentInventoryNumber);
     }
 }

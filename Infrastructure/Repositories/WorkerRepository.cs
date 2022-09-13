@@ -19,7 +19,16 @@ namespace Infrastructure.Repositories
 
         public Worker GetWorkerById(int workerId)
         {
-            return _context.Set<Worker>().Where(worker => worker.Id == workerId).FirstOrDefault();
+            return _context.Set<Worker>()
+                .Where(worker => worker.Id == workerId)
+                .FirstOrDefault();
+        }
+
+        public Worker GetWorkerByEquipmentInventoryNumber(int equipmentInventoryNumber)
+        {
+            return _context.Set<Worker>()
+                .Where(worker => worker.EquipmentInventoryNumber == equipmentInventoryNumber)
+                .FirstOrDefault();
         }
     }
 }

@@ -15,31 +15,26 @@ namespace Application.DTOs.Mapping
                 opt => opt.MapFrom(src => Enum.Parse(typeof(Purpose), src.Purpose)))
                 .ForMember(dst => dst.RoomType,
                 opt => opt.MapFrom(src => Enum.Parse(typeof(RoomType), src.RoomType)))
-                .ForMember(dst => dst.RoomEquipment, opt => opt.NullSubstitute(null)) //check
-                .ReverseMap();
+                .ForMember(dst => dst.RoomEquipment, opt => opt.NullSubstitute(null));
 
             this.CreateMap<SubdivisionDTO, Subdivision>()
                 .ForMember(dst => dst.IncomingWorkers, opt => opt.NullSubstitute(null))
-                .ForMember(dst => dst.IncomingRooms, opt => opt.NullSubstitute(null))
-                .ReverseMap();
+                .ForMember(dst => dst.IncomingRooms, opt => opt.NullSubstitute(null));
 
             this.CreateMap<UniversityBuildingDTO, UniversityBuilding>()
                 .ForMember(dst => dst.IncomingRooms, opt => opt.NullSubstitute(null))
-                .ForMember(dst => dst.IncomingSubdivisions, opt => opt.NullSubstitute(null))
-                .ReverseMap();
+                .ForMember(dst => dst.IncomingSubdivisions, opt => opt.NullSubstitute(null));
 
             this.CreateMap<EquipmentCategoryDTO, EquipmentCategory>()
                 .ForMember(dst => dst.EquipmentAmount, opt => opt.NullSubstitute(null))
-                .ForMember(dst => dst.CurrentCategoryEquipments, opt => opt.NullSubstitute(null))
-                .ReverseMap();
+                .ForMember(dst => dst.CurrentCategoryEquipments, opt => opt.NullSubstitute(null));
 
             this.CreateMap<EquipmentDTO, Equipment>()
                 .AfterMap((src, dst) => dst.WhereUsed.EquipmentInventoryNumber = src.InventoryNumber)
                 .AfterMap((src, dst) => dst.FinanciallyResponsiblePerson.EquipmentInventoryNumber = src.InventoryNumber)
-                .AfterMap((src, dst) => dst.WhereUsed.Purpose = (Purpose) Enum.Parse(typeof(Purpose), src.WhereUsed.Purpose))
+                .AfterMap((src, dst) => dst.WhereUsed.Purpose = (Purpose)Enum.Parse(typeof(Purpose), src.WhereUsed.Purpose))
                 .ForMember(dst => dst.EquipmentCategoryName,
-                opt => opt.MapFrom(src => src.Category.Name))
-                .ReverseMap();
+                opt => opt.MapFrom(src => src.Category.Name));
 
             this.CreateMap<UsageDTO, Usage>();
             this.CreateMap<WorkerDTO, Worker>()

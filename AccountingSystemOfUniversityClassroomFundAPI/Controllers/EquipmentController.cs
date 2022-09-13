@@ -24,6 +24,16 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
             _equipmentService.AddEquipmentInRoom(roomNumber, equipmentDTO);
             _equipmentService.UpdateEquipmentFinanciallyResponsiblePerson(equipmentDTO);
             _unitOfWork.Commit();
+
+            _equipmentService.UpdateCurrentEquipmentCategoryAmount(equipmentDTO);
+            _unitOfWork.Commit();
+        }
+
+        [HttpPost("add/category")]
+        public void AddEquipmentCategory([FromBody] EquipmentCategoryDTO equipmentCategoryDTO)
+        {
+            _equipmentService.AddEquipmentCategory(equipmentCategoryDTO);
+            _unitOfWork.Commit();
         }
     }
 }

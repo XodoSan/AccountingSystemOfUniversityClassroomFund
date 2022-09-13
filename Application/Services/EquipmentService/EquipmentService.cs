@@ -36,5 +36,20 @@ namespace Application.Services.EquipmentService
             Worker currentWorker = _workerRepository.GetWorkerById(equipmentDTO.FinanciallyResponsiblePerson.Id);
             currentWorker.EquipmentInventoryNumber = equipmentDTO.InventoryNumber;
         }
+
+        public void UpdateCurrentEquipmentCategoryAmount(EquipmentDTO equipmentDTO)
+        {
+            EquipmentCategory currentCategory = _equipmentRepository.GetEquipmentCategoryByName(equipmentDTO.Category.Name);
+            currentCategory.EquipmentAmount = _equipmentRepository
+                .GetEquipmentsByCategoryName(currentCategory.Name)
+                .Count;
+        }
+
+        public void AddEquipmentCategory(EquipmentCategoryDTO equipmentCategoryDTO)
+        {
+            EquipmentCategory category = _mapper.Map<EquipmentCategory>(equipmentCategoryDTO);
+
+            _equipmentRepository.AddEquipmentCategory(category);
+        }
     }
 }
