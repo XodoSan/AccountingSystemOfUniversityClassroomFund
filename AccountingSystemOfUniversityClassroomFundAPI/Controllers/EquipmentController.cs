@@ -25,7 +25,7 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
             _equipmentService.UpdateEquipmentFinanciallyResponsiblePerson(equipmentDTO);
             _unitOfWork.Commit();
 
-            _equipmentService.UpdateCurrentEquipmentCategoryAmount(equipmentDTO);
+            _equipmentService.UpdateCurrentEquipmentCategoryAmount(equipmentDTO.Name);
             _unitOfWork.Commit();
         }
 
@@ -33,6 +33,16 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         public void AddEquipmentCategory([FromBody] EquipmentCategoryDTO equipmentCategoryDTO)
         {
             _equipmentService.AddEquipmentCategory(equipmentCategoryDTO);
+            _unitOfWork.Commit();
+        }
+
+        [HttpPut("update")]
+        public void UpdateEquipment([FromRoute] int roomNumber, [FromBody] EquipmentDTO equipmentDTO)
+        {
+            _equipmentService.UpdateEquipment(roomNumber, equipmentDTO);
+            _unitOfWork.Commit();
+
+            _equipmentService.UpdateAllEquipmentCategoryAmounts();
             _unitOfWork.Commit();
         }
     }

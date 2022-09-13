@@ -31,12 +31,13 @@ namespace Application.DTOs.Mapping
 
             this.CreateMap<EquipmentDTO, Equipment>()
                 .AfterMap((src, dst) => dst.WhereUsed.EquipmentInventoryNumber = src.InventoryNumber)
-                .AfterMap((src, dst) => dst.FinanciallyResponsiblePerson.EquipmentInventoryNumber = src.InventoryNumber)
                 .AfterMap((src, dst) => dst.WhereUsed.Purpose = (Purpose)Enum.Parse(typeof(Purpose), src.WhereUsed.Purpose))
+                .AfterMap((src, dst) => dst.FinanciallyResponsiblePerson.EquipmentInventoryNumber = src.InventoryNumber)
                 .ForMember(dst => dst.EquipmentCategoryName,
                 opt => opt.MapFrom(src => src.Category.Name));
 
             this.CreateMap<UsageDTO, Usage>();
+
             this.CreateMap<WorkerDTO, Worker>()
                 .ForMember(dst => dst.EquipmentInventoryNumber, opt => opt.NullSubstitute(null));
         }

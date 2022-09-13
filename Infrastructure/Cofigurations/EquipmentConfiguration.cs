@@ -24,6 +24,9 @@ namespace Infrastructure.Cofigurations
                 .WithOne()
                 .HasForeignKey<Usage>(item => item.EquipmentInventoryNumber)
                 .IsRequired();
+            builder.HasOne(item => item.Category)
+                .WithMany()
+                .HasForeignKey(item => item.EquipmentCategoryName);
         }
     }
 }

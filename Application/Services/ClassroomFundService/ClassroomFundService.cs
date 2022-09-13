@@ -32,7 +32,8 @@ namespace Application.Services.ClassroomFundService
 
         public void AddUniversityBuilding(UniversityBuildingDTO universityBuildingDTO)
         {
-            UniversityBuilding universityBuilding = _mapper.Map<UniversityBuilding>(universityBuildingDTO);
+            UniversityBuilding universityBuilding = _mapper
+                .Map<UniversityBuilding>(universityBuildingDTO);
             _fundRepository.AddUniversityBuilding(universityBuilding);
         }
 

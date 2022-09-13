@@ -12,9 +12,6 @@ namespace Infrastructure.Cofigurations
                 .HasKey(item => item.Name);
             builder.Property(item => item.Name).IsRequired();
             builder.Property(item => item.EquipmentAmount).IsRequired();
-            builder.HasMany(item => item.CurrentCategoryEquipments)
-                .WithOne()
-                .HasForeignKey(item => item.EquipmentCategoryName);
         }
     }
 }
