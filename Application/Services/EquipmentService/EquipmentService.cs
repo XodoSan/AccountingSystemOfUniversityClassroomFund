@@ -25,6 +25,9 @@ namespace Application.Services.EquipmentService
             Equipment equipment = _mapper.Map<Equipment>(equipmentDTO);
             equipment.RoomNumber = roomNumber;
 
+            Worker currentWorker = _workerRepository.GetWorkerById(equipmentDTO.FinanciallyResponsiblePerson.Id);
+            equipment.FinanciallyResponsiblePerson = currentWorker;
+
             _equipmentRepository.AddEquipment(equipment);
         }
 

@@ -20,10 +20,6 @@ namespace Infrastructure.Cofigurations
                 .WithOne()
                 .HasForeignKey<Worker>(item => item.EquipmentInventoryNumber)
                 .IsRequired();
-            builder.HasOne(item => item.Category)
-                .WithMany()
-                .HasForeignKey(item => item.EquipmentCategoryName)
-                .IsRequired();
             builder.HasOne(item => item.WhereUsed)
                 .WithOne()
                 .HasForeignKey<Usage>(item => item.EquipmentInventoryNumber)
