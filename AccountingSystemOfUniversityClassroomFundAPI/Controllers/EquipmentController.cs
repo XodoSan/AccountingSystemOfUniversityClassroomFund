@@ -18,14 +18,14 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         public void AddEquipment([FromRoute] int roomNumber, [FromBody] EquipmentDTO equipmentDTO)
         {
             _equipmentService.AddEquipmentInRoom(roomNumber, equipmentDTO);
             _equipmentService.UpdateEquipmentFinanciallyResponsiblePerson(equipmentDTO);
             _unitOfWork.Commit();
 
-            _equipmentService.UpdateCurrentEquipmentCategoryAmount(equipmentDTO.Name);
+            _equipmentService.UpdateCurrentEquipmentCategoryAmount(equipmentDTO.Category.Name);
             _unitOfWork.Commit();
         }
 
@@ -43,6 +43,13 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
             _unitOfWork.Commit();
 
             _equipmentService.UpdateAllEquipmentCategoryAmounts();
+            _unitOfWork.Commit();
+        }
+
+        [HttpDelete("delete/{equipmentInventoryNumber}")]
+        public void DeleteEquipment([FromRoute] int equipmentInventoryNumber)
+        {
+            _equipmentService.DeleteEquipmentByInventoryNumber(equipmentInventoryNumber);
             _unitOfWork.Commit();
         }
     }

@@ -30,16 +30,13 @@ namespace Application.DTOs.Mapping
                 .ForMember(dst => dst.CurrentCategoryEquipments, opt => opt.NullSubstitute(null));
 
             this.CreateMap<EquipmentDTO, Equipment>()
-                .AfterMap((src, dst) => dst.WhereUsed.EquipmentInventoryNumber = src.InventoryNumber)
-                .AfterMap((src, dst) => dst.WhereUsed.Purpose = (Purpose)Enum.Parse(typeof(Purpose), src.WhereUsed.Purpose))
-                .AfterMap((src, dst) => dst.FinanciallyResponsiblePerson.EquipmentInventoryNumber = src.InventoryNumber)
-                .ForPath(dst => dst.FinanciallyResponsiblePerson.FullName, opt => opt.Ignore())
-                .ForPath(dst => dst.FinanciallyResponsiblePerson.Age, opt => opt.Ignore())
+                .ForPath(dst => dst.FinanciallyResponsiblePerson.Id, opt => opt.Ignore())
                 .ForPath(dst => dst.WhereUsed.Id, opt => opt.Ignore())
-                .ForMember(dst => dst.Category, opt => opt.Ignore())
-                .ForMember(dst => dst.EquipmentCategoryName, opt => opt.MapFrom(src => src.Category.Name));
+                .ForMember(dst => dst.Category, opt => opt.Ignore());
 
-            this.CreateMap<UsageDTO, Usage>();
+            this.CreateMap<UsageDTO, Usage>()
+                .ForMember(dst => dst.Id, opt => opt.Ignore())
+                .AfterMap((src, dst) => dst.Purpose = (Purpose)Enum.Parse(typeof(Purpose), src.Purpose));
 
             this.CreateMap<WorkerDTO, Worker>()
                 .ForMember(dst => dst.EquipmentInventoryNumber, opt => opt.NullSubstitute(null));

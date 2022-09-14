@@ -25,8 +25,18 @@ namespace Application.Services.EquipmentService
             Equipment equipment = _mapper.Map<Equipment>(equipmentDTO);
             equipment.RoomNumber = roomNumber;
 
+            equipment.WhereUsed = _mapper.Map<Usage>(equipmentDTO.WhereUsed);
+            equipment.WhereUsed.EquipmentInventoryNumber = equipmentDTO.InventoryNumber;
+
+            equipment.FinanciallyResponsiblePerson = _mapper.Map<Worker>(equipmentDTO.FinanciallyResponsiblePerson);
+            equipment.FinanciallyResponsiblePerson.EquipmentInventoryNumber = equipmentDTO.InventoryNumber;
+
+            equipment.Category = _mapper.Map<EquipmentCategory>(equipmentDTO.Category);
+            equipment.EquipmentCategoryName = equipment.Category.Name;
+
             Worker currentWorker = _workerRepository.GetWorkerById(equipmentDTO.FinanciallyResponsiblePerson.Id);
             equipment.FinanciallyResponsiblePerson = currentWorker;
+            equipment.FinanciallyResponsiblePerson.EquipmentInventoryNumber = equipmentDTO.InventoryNumber;
 
             _equipmentRepository.AddEquipment(equipment);
         }
@@ -59,15 +69,21 @@ namespace Application.Services.EquipmentService
             Equipment equipment = _mapper.Map(equipmentDTO, currentEquipment);
             equipment.RoomNumber = roomNumber;
 
-            Worker worker = _workerRepository.GetWorkerByEquipmentInventoryNumber(equipmentDTO.InventoryNumber);
-            worker.EquipmentInventoryNumber = equipment.InventoryNumber;
+            Worker newWorker = _workerRepository.GetWorkerById(equipmentDTO.FinanciallyResponsiblePerson.Id);
+            newWorker.EquipmentInventoryNumber = equipment.InventoryNumber;
 
             EquipmentCategory equipmentCategory = _equipmentRepository.GetEquipmentCategoryByName(equipmentDTO.Category.Name);
             List<Equipment> currentCategoryEquipments = _equipmentRepository.GetEquipmentsByCategoryName(equipmentDTO.Category.Name);
             equipmentCategory.CurrentCategoryEquipments = currentCategoryEquipments;
             equipmentCategory.CurrentCategoryEquipments.Add(equipment);
 
+            Usage currentEquipmentUsage = _equipmentRepository.GetEquipmentUsageByInventoryNumber(currentEquipment.InventoryNumber);
+            Usage equipmentUsage = _mapper.Map(equipmentDTO.WhereUsed, currentEquipmentUsage);
+            equipmentUsage.EquipmentInventoryNumber = equipmentDTO.InventoryNumber;
+
             equipment.Category = equipmentCategory;
+            equipment.FinanciallyResponsiblePerson = newWorker;
+            equipment.WhereUsed = equipmentUsage;
         }
 
         public void UpdateAllEquipmentCategoryAmounts()
@@ -77,6 +93,12 @@ namespace Application.Services.EquipmentService
             {
                 UpdateCurrentEquipmentCategoryAmount(equipentCategory.Name);
             }
+        }
+
+        public void DeleteEquipmentByInventoryNumber(int inventoryNumber)
+        {
+            Equipment currentEquipment = _equipmentRepository.GetEquipmentByInventoryNumber(inventoryNumber);
+            _equipmentRepository.DeleteEquipment(currentEquipment);
         }
     }
 }

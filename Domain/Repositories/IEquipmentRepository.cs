@@ -11,5 +11,7 @@ namespace Domain.Repositories
         public Equipment GetEquipmentByInventoryNumber(int inventoryNumber);
         public EquipmentCategory GetEquipmentCategoryByName(string categoryName);
         public List<EquipmentCategory> GetAllEquipmentCategories();
+        public Usage GetEquipmentUsageByInventoryNumber(int inventoryNumber);
+        public void DeleteEquipment(Equipment currentEquipment);
     }
 }

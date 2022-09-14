@@ -21,6 +21,7 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         [HttpPost("add/worker")]
         public void AddWorker([FromRoute] string subdivisionName, [FromBody] WorkerDTO workerDTO)
         {
+
             _workerService.AddWorkerInSubdivision(subdivisionName, workerDTO);
             _unitOfWork.Commit();
         }

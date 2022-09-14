@@ -43,7 +43,6 @@ namespace Infrastructure.Repositories
                 .Where(equipment => equipment.InventoryNumber == inventoryNumber)
                 .Include(equipment => equipment.FinanciallyResponsiblePerson)
                 .Include(equipment => equipment.WhereUsed)
-                .Include(equipment => equipment.Category)
                 .First();
         }
 
@@ -57,6 +56,18 @@ namespace Infrastructure.Repositories
         public List<EquipmentCategory> GetAllEquipmentCategories()
         {
             return _context.Set<EquipmentCategory>().ToList();
+        }
+
+        public Usage GetEquipmentUsageByInventoryNumber(int inventoryNumber)
+        {
+            return _context.Set<Usage>()
+                .Where(usage => usage.EquipmentInventoryNumber == inventoryNumber)
+                .First();
+        }
+
+        public void DeleteEquipment(Equipment currentEquipment)
+        {
+            _context.Set<Equipment>().Remove(currentEquipment);
         }
     }
 }

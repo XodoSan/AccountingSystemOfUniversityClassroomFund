@@ -10,5 +10,6 @@ namespace Application.Services.EquipmentService
         public void UpdateCurrentEquipmentCategoryAmount(string equipmentCategoryName);
         public void UpdateEquipment(int roomNumber, EquipmentDTO equipmentDTO);
         public void UpdateAllEquipmentCategoryAmounts();
+        public void DeleteEquipmentByInventoryNumber(int inventoryNumber);
     }
 }
