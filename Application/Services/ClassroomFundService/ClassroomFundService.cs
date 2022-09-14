@@ -43,5 +43,17 @@ namespace Application.Services.ClassroomFundService
             subdivision.UniversityName = universityName;
             _fundRepository.AddSubdivision(subdivision);
         }
+
+        public void UpdateRoom(string universityName, RoomDTO roomDTO)
+        {
+            Room room = _fundRepository.GetRoomByNumber(roomDTO.Number);
+            _mapper.Map(roomDTO, room);
+        }
+
+        public void UpdateUniversityBuilding(UniversityBuildingDTO universityBuildingDTO)
+        {
+            UniversityBuilding universityBuilding = _fundRepository.GetUniversityBuildingByName(universityBuildingDTO.Name);
+            _mapper.Map(universityBuildingDTO, universityBuilding);
+        }
     }
 }

@@ -44,14 +44,14 @@ namespace Infrastructure.Repositories
                 .Include(equipment => equipment.FinanciallyResponsiblePerson)
                 .Include(equipment => equipment.WhereUsed)
                 .Include(equipment => equipment.Category)
-                .FirstOrDefault();
+                .First();
         }
 
         public EquipmentCategory GetEquipmentCategoryByName(string categoryName)
         {
             return _context.Set<EquipmentCategory>()
                 .Where(category => category.Name == categoryName)
-                .FirstOrDefault();
+                .First();
         }
 
         public List<EquipmentCategory> GetAllEquipmentCategories()

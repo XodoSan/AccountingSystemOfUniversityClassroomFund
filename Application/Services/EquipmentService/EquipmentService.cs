@@ -1,6 +1,5 @@
 ﻿using Application.DTOs;
 using AutoMapper;
-using Domain.Constants;
 using Domain.Entities;
 using Domain.Repositories;
 
@@ -57,7 +56,7 @@ namespace Application.Services.EquipmentService
         public void UpdateEquipment(int roomNumber, EquipmentDTO equipmentDTO)
         {
             Equipment currentEquipment = _equipmentRepository.GetEquipmentByInventoryNumber(equipmentDTO.InventoryNumber);
-            Equipment equipment = UpdateFieldsEquipment(equipmentDTO, currentEquipment);
+            Equipment equipment = _mapper.Map(equipmentDTO, currentEquipment);
             equipment.RoomNumber = roomNumber;
 
             Worker worker = _workerRepository.GetWorkerByEquipmentInventoryNumber(equipmentDTO.InventoryNumber);
@@ -78,21 +77,6 @@ namespace Application.Services.EquipmentService
             {
                 UpdateCurrentEquipmentCategoryAmount(equipentCategory.Name);
             }
-        }
-
-        private Equipment UpdateFieldsEquipment(EquipmentDTO equipmentDTO, Equipment equipment)
-        {
-            equipment.InventoryNumber = equipmentDTO.InventoryNumber;
-            equipment.SerialNumber = equipmentDTO.SerialNumber;
-            equipment.Name = equipmentDTO.Name;
-            equipment.PurchaseDate = equipmentDTO.PurchaseDate;
-            equipment.CommissioningDate = equipmentDTO.CommissioningDate;
-            equipment.Price = equipmentDTO.Price;
-            equipment.EquipmentCategoryName = equipmentDTO.Category.Name;
-            equipment.WhereUsed.Instruction = equipmentDTO.WhereUsed.Instruction;
-            equipment.WhereUsed.Purpose = (Purpose)Enum.Parse(typeof(Purpose), equipmentDTO.WhereUsed.Purpose);
-
-            return equipment;
         }
     }
 }

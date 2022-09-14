@@ -19,6 +19,20 @@ namespace Infrastructure.Repositories
                 .ToList();
         }
 
+        public Room GetRoomByNumber(int roomNumber)
+        {
+            return _context.Set<Room>()
+                .Where(room => room.Number == roomNumber)
+                .First();
+        }
+
+        public UniversityBuilding GetUniversityBuildingByName(string universityName)
+        {
+            return _context.Set<UniversityBuilding>()
+                .Where(university => university.Name == universityName)
+                .First();
+        }
+
         public void AddRoom(Room room)
         {
             _context.Set<Room>().Add(room);

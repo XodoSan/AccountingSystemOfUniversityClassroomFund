@@ -33,8 +33,11 @@ namespace Application.DTOs.Mapping
                 .AfterMap((src, dst) => dst.WhereUsed.EquipmentInventoryNumber = src.InventoryNumber)
                 .AfterMap((src, dst) => dst.WhereUsed.Purpose = (Purpose)Enum.Parse(typeof(Purpose), src.WhereUsed.Purpose))
                 .AfterMap((src, dst) => dst.FinanciallyResponsiblePerson.EquipmentInventoryNumber = src.InventoryNumber)
-                .ForMember(dst => dst.EquipmentCategoryName,
-                opt => opt.MapFrom(src => src.Category.Name));
+                .ForPath(dst => dst.FinanciallyResponsiblePerson.FullName, opt => opt.Ignore())
+                .ForPath(dst => dst.FinanciallyResponsiblePerson.Age, opt => opt.Ignore())
+                .ForPath(dst => dst.WhereUsed.Id, opt => opt.Ignore())
+                .ForMember(dst => dst.Category, opt => opt.Ignore())
+                .ForMember(dst => dst.EquipmentCategoryName, opt => opt.MapFrom(src => src.Category.Name));
 
             this.CreateMap<UsageDTO, Usage>();
 

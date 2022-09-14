@@ -21,14 +21,14 @@ namespace Infrastructure.Repositories
         {
             return _context.Set<Worker>()
                 .Where(worker => worker.Id == workerId)
-                .FirstOrDefault();
+                .First();
         }
 
         public Worker GetWorkerByEquipmentInventoryNumber(int equipmentInventoryNumber)
         {
             return _context.Set<Worker>()
                 .Where(worker => worker.EquipmentInventoryNumber == equipmentInventoryNumber)
-                .FirstOrDefault();
+                .First();
         }
     }
 }

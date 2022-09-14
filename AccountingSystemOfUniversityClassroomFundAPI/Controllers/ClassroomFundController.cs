@@ -38,5 +38,19 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
             _fundService.AddSubdivisionInUniversity(universityName, subdivisionDTO);
             _unitOfWork.Commit();
         }
+
+        [HttpPut("update/room/{universityName}")]
+        public void UpdateRoom([FromRoute] string universityName, [FromBody] RoomDTO roomDTO)
+        {
+            _fundService.UpdateRoom(universityName, roomDTO);
+            _unitOfWork.Commit();
+        }
+
+        [HttpPut("update/university_building")]
+        public void UpdateUniversityBuilding([FromBody] UniversityBuildingDTO universityBuildingDTO)
+        {
+            _fundService.UpdateUniversityBuilding(universityBuildingDTO);
+            _unitOfWork.Commit();
+        }
     }
 }
