@@ -24,10 +24,10 @@ namespace Infrastructure.Repositories
                 .First();
         }
 
-        public Worker GetWorkerByEquipmentInventoryNumber(int equipmentInventoryNumber)
+        public Worker GetWorkerByEquipment(Equipment equipment)
         {
             return _context.Set<Worker>()
-                .Where(worker => worker.EquipmentInventoryNumber == equipmentInventoryNumber)
+                .Where(worker => worker.CurrentWorkerEquipments.Contains(equipment))
                 .First();
         }
     }

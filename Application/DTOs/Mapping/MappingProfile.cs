@@ -39,7 +39,7 @@ namespace Application.DTOs.Mapping
                 .AfterMap((src, dst) => dst.Purpose = (Purpose)Enum.Parse(typeof(Purpose), src.Purpose));
 
             this.CreateMap<WorkerDTO, Worker>()
-                .ForMember(dst => dst.EquipmentInventoryNumber, opt => opt.NullSubstitute(null));
+                .ForMember(dst => dst.CurrentWorkerEquipments, opt => opt.NullSubstitute(null));
         }
     }
 }

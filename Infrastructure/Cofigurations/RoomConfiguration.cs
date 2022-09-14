@@ -20,7 +20,7 @@ namespace Infrastructure.Cofigurations
             builder.Property(item => item.FloorPlan).IsRequired();
             builder.HasMany(item => item.RoomEquipment)
                 .WithOne()
-                .HasForeignKey(item => item.RoomNumber);
+                .HasForeignKey(item => item.EquipmentRoomNumber);
         }
     }
 }

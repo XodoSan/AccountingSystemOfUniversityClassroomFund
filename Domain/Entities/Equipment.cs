@@ -12,6 +12,7 @@
         public EquipmentCategory Category { get; set; }
         public Usage WhereUsed { get; set; }
         public string EquipmentCategoryName { get; set; }
-        public int RoomNumber { get; set; }
+        public int EquipmentWorkerId { get; set; }
+        public int EquipmentRoomNumber { get; set; }
     }
 }

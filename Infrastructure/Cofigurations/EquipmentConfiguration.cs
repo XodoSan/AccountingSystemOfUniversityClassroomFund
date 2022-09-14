@@ -16,10 +16,6 @@ namespace Infrastructure.Cofigurations
             builder.Property(item => item.PurchaseDate).IsRequired();
             builder.Property(item => item.CommissioningDate).IsRequired();
             builder.Property(item => item.SerialNumber).IsRequired();
-            builder.HasOne(item => item.FinanciallyResponsiblePerson)
-                .WithOne()
-                .HasForeignKey<Worker>(item => item.EquipmentInventoryNumber)
-                .IsRequired();
             builder.HasOne(item => item.WhereUsed)
                 .WithOne()
                 .HasForeignKey<Usage>(item => item.EquipmentInventoryNumber)

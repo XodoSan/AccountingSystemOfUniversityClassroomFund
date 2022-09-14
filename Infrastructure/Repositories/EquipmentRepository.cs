@@ -26,7 +26,7 @@ namespace Infrastructure.Repositories
         public List<Equipment> GetAllCurrentRoomEquipment(int roomNumber)
         {
             return _context.Set<Equipment>()
-                .Where(equipment => equipment.RoomNumber == roomNumber)
+                .Where(equipment => equipment.EquipmentRoomNumber == roomNumber)
                 .ToList();
         }
 
@@ -41,7 +41,6 @@ namespace Infrastructure.Repositories
         {
             return _context.Set<Equipment>()
                 .Where(equipment => equipment.InventoryNumber == inventoryNumber)
-                .Include(equipment => equipment.FinanciallyResponsiblePerson)
                 .Include(equipment => equipment.WhereUsed)
                 .First();
         }

@@ -4,6 +4,7 @@ using Domain.Constants;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220914213323_ChangedWorker-EquipmentRelationship")]
+    partial class ChangedWorkerEquipmentRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +42,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("EquipmentRoomNumber")
-                        .HasColumnType("integer");
-
                     b.Property<int>("EquipmentWorkerId")
                         .HasColumnType("integer");
 
@@ -56,6 +55,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("RoomNumber")
+                        .HasColumnType("integer");
+
                     b.Property<int>("SerialNumber")
                         .HasColumnType("integer");
 
@@ -63,9 +65,9 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("EquipmentCategoryName");
 
-                    b.HasIndex("EquipmentRoomNumber");
-
                     b.HasIndex("EquipmentWorkerId");
+
+                    b.HasIndex("RoomNumber");
 
                     b.ToTable("Equipment", (string)null);
                 });
@@ -274,15 +276,15 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Room", null)
-                        .WithMany("RoomEquipment")
-                        .HasForeignKey("EquipmentRoomNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Worker", null)
                         .WithMany("CurrentWorkerEquipments")
                         .HasForeignKey("EquipmentWorkerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Room", null)
+                        .WithMany("RoomEquipment")
+                        .HasForeignKey("RoomNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

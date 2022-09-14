@@ -15,7 +15,10 @@ namespace Infrastructure.Cofigurations
             builder.Property(item => item.Age).IsRequired();
             builder.Property(item => item.FullName).IsRequired();
             builder.Property(item => item.SubdivisionName).IsRequired();
-            builder.Property(item => item.EquipmentInventoryNumber).IsRequired(false);
+            builder.HasMany(item => item.CurrentWorkerEquipments)
+                .WithOne()
+                .HasForeignKey(item => item.EquipmentWorkerId)
+                .IsRequired();
         }
     }
 }

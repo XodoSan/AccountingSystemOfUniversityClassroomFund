@@ -22,7 +22,6 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         public void AddEquipment([FromRoute] int roomNumber, [FromBody] EquipmentDTO equipmentDTO)
         {
             _equipmentService.AddEquipmentInRoom(roomNumber, equipmentDTO);
-            _equipmentService.UpdateEquipmentFinanciallyResponsiblePerson(equipmentDTO);
             _unitOfWork.Commit();
 
             _equipmentService.UpdateCurrentEquipmentCategoryAmount(equipmentDTO.Category.Name);
