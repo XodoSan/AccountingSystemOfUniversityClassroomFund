@@ -10,5 +10,6 @@ namespace Domain.Repositories
         public void AddRoom(Room room);
         public void AddUniversityBuilding(UniversityBuilding universityBuilding);
         public void AddSubdivision(Subdivision subdivision);
+        public void DeleteRoom(Room currentRoom);
     }
 }

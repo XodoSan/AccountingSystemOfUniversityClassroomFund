@@ -47,5 +47,10 @@ namespace Infrastructure.Repositories
         {
             _context.Set<Subdivision>().Add(subdivision);
         }
+
+        public void DeleteRoom(Room currentRoom)
+        {
+            _context.Set<Room>().Remove(currentRoom);
+        }
     }
 }

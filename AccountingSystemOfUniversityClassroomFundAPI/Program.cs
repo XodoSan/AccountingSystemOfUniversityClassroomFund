@@ -1,5 +1,6 @@
 using Application.DTOs.Mapping;
 using Application.Services.ClassroomFundService;
+using Application.Services.EquipmentCategoryService;
 using Application.Services.EquipmentService;
 using Application.Services.WorkerService;
 using Application.Tools;
@@ -23,6 +24,8 @@ public class Program
         builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
         builder.Services.AddScoped<IWorkerService, WorkerService>();
         builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();
+        builder.Services.AddScoped<IEquipmentCategoryService, EquipmentCategoryService>();
+        builder.Services.AddScoped<IEquipmentCategoryRepository, EquipmentCategoryRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         IConfiguration config = GetConfig();

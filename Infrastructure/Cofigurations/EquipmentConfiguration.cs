@@ -19,7 +19,8 @@ namespace Infrastructure.Cofigurations
             builder.HasOne(item => item.WhereUsed)
                 .WithOne()
                 .HasForeignKey<Usage>(item => item.EquipmentInventoryNumber)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

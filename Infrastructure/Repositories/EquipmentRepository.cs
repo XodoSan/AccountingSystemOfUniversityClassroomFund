@@ -45,18 +45,6 @@ namespace Infrastructure.Repositories
                 .First();
         }
 
-        public EquipmentCategory GetEquipmentCategoryByName(string categoryName)
-        {
-            return _context.Set<EquipmentCategory>()
-                .Where(category => category.Name == categoryName)
-                .First();
-        }
-
-        public List<EquipmentCategory> GetAllEquipmentCategories()
-        {
-            return _context.Set<EquipmentCategory>().ToList();
-        }
-
         public Usage GetEquipmentUsageByInventoryNumber(int inventoryNumber)
         {
             return _context.Set<Usage>()

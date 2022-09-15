@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.Services.EquipmentCategoryService;
 using Application.Services.EquipmentService;
 using Infrastructure.Tools;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,16 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
     public class EquipmentController : ControllerBase
     {
         private readonly IEquipmentService _equipmentService;
+        private readonly IEquipmentCategoryService _equipmentCategoryService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public EquipmentController(IEquipmentService equipmentService, IUnitOfWork unitOfWork)
+        public EquipmentController(
+            IEquipmentService equipmentService, 
+            IEquipmentCategoryService equipmentCategoryService,
+            IUnitOfWork unitOfWork)
         {
             _equipmentService = equipmentService;
+            _equipmentCategoryService = equipmentCategoryService;
             _unitOfWork = unitOfWork;
         }
 
@@ -24,7 +30,7 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
             _equipmentService.AddEquipmentInRoom(roomNumber, equipmentDTO);
             _unitOfWork.Commit();
 
-            _equipmentService.UpdateCurrentEquipmentCategoryAmount(equipmentDTO.Category.Name);
+            _equipmentCategoryService.UpdateCurrentEquipmentCategoryAmount(equipmentDTO.Category.Name);
             _unitOfWork.Commit();
         }
 
@@ -41,7 +47,7 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
             _equipmentService.UpdateEquipment(roomNumber, equipmentDTO);
             _unitOfWork.Commit();
 
-            _equipmentService.UpdateAllEquipmentCategoryAmounts();
+            _equipmentCategoryService.UpdateAllEquipmentCategoryAmounts();
             _unitOfWork.Commit();
         }
 
@@ -49,6 +55,9 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         public void DeleteEquipment([FromRoute] int equipmentInventoryNumber)
         {
             _equipmentService.DeleteEquipmentByInventoryNumber(equipmentInventoryNumber);
+            _unitOfWork.Commit();
+
+            _equipmentCategoryService.UpdateAllEquipmentCategoryAmounts();
             _unitOfWork.Commit();
         }
     }

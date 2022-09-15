@@ -11,5 +11,6 @@ namespace Application.Services.ClassroomFundService
         public void AddSubdivisionInUniversity(string universityName, SubdivisionDTO subdivisionDTO);
         public void UpdateRoom(string universityName, RoomDTO roomDTO);
         public void UpdateUniversityBuilding(UniversityBuildingDTO universityBuildingDTO);
+        public void DeleteRoomByNumber(int roomNumber);
     }
 }

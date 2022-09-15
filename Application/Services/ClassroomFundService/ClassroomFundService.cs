@@ -55,5 +55,11 @@ namespace Application.Services.ClassroomFundService
             UniversityBuilding universityBuilding = _fundRepository.GetUniversityBuildingByName(universityBuildingDTO.Name);
             _mapper.Map(universityBuildingDTO, universityBuilding);
         }
+
+        public void DeleteRoomByNumber(int roomNumber)
+        {
+            Room currentRoom = _fundRepository.GetRoomByNumber(roomNumber);
+            _fundRepository.DeleteRoom(currentRoom);
+        }
     }
 }

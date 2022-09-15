@@ -9,15 +9,19 @@ namespace Application.Services.EquipmentService
     {
         private readonly IEquipmentRepository _equipmentRepository;
         private readonly IWorkerRepository _workerRepository;
+        private readonly IEquipmentCategoryRepository _equipmentCategoryRepository;
         private readonly IMapper _mapper;
 
-        public EquipmentService(IEquipmentRepository equipmentRepository,
-            IMapper mapper,
-            IWorkerRepository workerRepository)
+        public EquipmentService(
+            IEquipmentRepository equipmentRepository,
+            IWorkerRepository workerRepository,
+            IEquipmentCategoryRepository equipmentCategoryRepository,
+            IMapper mapper)
         {
             _equipmentRepository = equipmentRepository;
-            _mapper = mapper;
             _workerRepository = workerRepository;
+            _equipmentCategoryRepository = equipmentCategoryRepository;
+            _mapper = mapper;
         }
 
         public void AddEquipmentInRoom(int roomNumber, EquipmentDTO equipmentDTO)
@@ -38,15 +42,6 @@ namespace Application.Services.EquipmentService
             _equipmentRepository.AddEquipment(equipment);
         }
 
-        public void UpdateCurrentEquipmentCategoryAmount(string equipmentCategoryName)
-        {
-            EquipmentCategory currentCategory = _equipmentRepository
-                .GetEquipmentCategoryByName(equipmentCategoryName);
-            currentCategory.EquipmentAmount = _equipmentRepository
-                .GetEquipmentsByCategoryName(currentCategory.Name)
-                .Count;
-        }
-
         public void AddEquipmentCategory(EquipmentCategoryDTO equipmentCategoryDTO)
         {
             EquipmentCategory category = _mapper.Map<EquipmentCategory>(equipmentCategoryDTO);
@@ -55,29 +50,24 @@ namespace Application.Services.EquipmentService
 
         public void UpdateEquipment(int roomNumber, EquipmentDTO equipmentDTO)
         {
-            Equipment currentEquipment = _equipmentRepository.GetEquipmentByInventoryNumber(equipmentDTO.InventoryNumber);
+            Equipment currentEquipment = _equipmentRepository
+                .GetEquipmentByInventoryNumber(equipmentDTO.InventoryNumber);
             Equipment equipment = _mapper.Map(equipmentDTO, currentEquipment);
             equipment.EquipmentRoomNumber = roomNumber;
 
             equipment.EquipmentWorkerId = equipmentDTO.FinanciallyResponsiblePerson.Id;
 
-            EquipmentCategory equipmentCategory = _equipmentRepository.GetEquipmentCategoryByName(equipmentDTO.Category.Name);
-            List<Equipment> currentCategoryEquipments = _equipmentRepository.GetEquipmentsByCategoryName(equipmentDTO.Category.Name);
+            EquipmentCategory equipmentCategory = _equipmentCategoryRepository
+                .GetEquipmentCategoryByName(equipmentDTO.Category.Name);
+            List<Equipment> currentCategoryEquipments = _equipmentRepository
+                .GetEquipmentsByCategoryName(equipmentDTO.Category.Name);
             equipmentCategory.CurrentCategoryEquipments = currentCategoryEquipments;
             equipmentCategory.CurrentCategoryEquipments.Add(equipment);
 
-            Usage currentEquipmentUsage = _equipmentRepository.GetEquipmentUsageByInventoryNumber(currentEquipment.InventoryNumber);
+            Usage currentEquipmentUsage = _equipmentRepository
+                .GetEquipmentUsageByInventoryNumber(currentEquipment.InventoryNumber);
             Usage equipmentUsage = _mapper.Map(equipmentDTO.WhereUsed, currentEquipmentUsage);
             equipmentUsage.EquipmentInventoryNumber = equipmentDTO.InventoryNumber;
-        }
-
-        public void UpdateAllEquipmentCategoryAmounts()
-        {
-            List<EquipmentCategory> equipmentCategories = _equipmentRepository.GetAllEquipmentCategories();
-            foreach (EquipmentCategory equipentCategory in equipmentCategories)
-            {
-                UpdateCurrentEquipmentCategoryAmount(equipentCategory.Name);
-            }
         }
 
         public void DeleteEquipmentByInventoryNumber(int inventoryNumber)
