@@ -61,5 +61,11 @@ namespace Application.Services.ClassroomFundService
             Room currentRoom = _fundRepository.GetRoomByNumber(roomNumber);
             _fundRepository.DeleteRoom(currentRoom);
         }
+
+        public void DeleteUniversityBuildingByName(string universityName)
+        {
+            UniversityBuilding currentUniversity = _fundRepository.GetUniversityBuildingByName(universityName);
+            _fundRepository.DeleteUniversityBuilding(currentUniversity);
+        }
     }
 }

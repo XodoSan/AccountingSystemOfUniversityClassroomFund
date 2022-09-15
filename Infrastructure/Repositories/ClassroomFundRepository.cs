@@ -52,5 +52,10 @@ namespace Infrastructure.Repositories
         {
             _context.Set<Room>().Remove(currentRoom);
         }
+
+        public void DeleteUniversityBuilding(UniversityBuilding currentUniversity)
+        {
+            _context.Set<UniversityBuilding>().Remove(currentUniversity);
+        }
     }
 }
