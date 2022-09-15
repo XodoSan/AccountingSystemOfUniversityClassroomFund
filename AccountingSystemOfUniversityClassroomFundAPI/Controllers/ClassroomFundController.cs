@@ -1,6 +1,5 @@
 ﻿using Application.DTOs;
 using Application.Services.ClassroomFundService;
-using Application.Services.EquipmentCategoryService;
 using Infrastructure.Tools;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,16 +11,13 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
     {
         private readonly IClassroomFundService _fundService;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IEquipmentCategoryService _equipmentCategoryService;
 
         public ClassroomFundController(
             IClassroomFundService fundService,
-            IUnitOfWork unitOfWork,
-            IEquipmentCategoryService equipmentCategoryService)
+            IUnitOfWork unitOfWork)
         {
             _fundService = fundService;
             _unitOfWork = unitOfWork;
-            _equipmentCategoryService = equipmentCategoryService;
         }
 
         [HttpPost("add/room/{universityName}")]
@@ -64,18 +60,12 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         {
             _fundService.DeleteRoomByNumber(roomNumber);
             _unitOfWork.Commit();
-
-            _equipmentCategoryService.UpdateAllEquipmentCategoryAmounts();
-            _unitOfWork.Commit();
         }
 
         [HttpDelete("delete/university_building/{universityName}")]
         public void DeleteUniversityBuilding([FromRoute] string universityName)
         {
             _fundService.DeleteUniversityBuildingByName(universityName);
-            _unitOfWork.Commit();
-
-            _equipmentCategoryService.UpdateAllEquipmentCategoryAmounts();
             _unitOfWork.Commit();
         }
     }

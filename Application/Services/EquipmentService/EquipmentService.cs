@@ -9,18 +9,15 @@ namespace Application.Services.EquipmentService
     {
         private readonly IEquipmentRepository _equipmentRepository;
         private readonly IWorkerRepository _workerRepository;
-        private readonly IEquipmentCategoryRepository _equipmentCategoryRepository;
         private readonly IMapper _mapper;
 
         public EquipmentService(
             IEquipmentRepository equipmentRepository,
             IWorkerRepository workerRepository,
-            IEquipmentCategoryRepository equipmentCategoryRepository,
             IMapper mapper)
         {
             _equipmentRepository = equipmentRepository;
             _workerRepository = workerRepository;
-            _equipmentCategoryRepository = equipmentCategoryRepository;
             _mapper = mapper;
         }
 
@@ -57,13 +54,8 @@ namespace Application.Services.EquipmentService
 
             equipment.EquipmentWorkerId = equipmentDTO.FinanciallyResponsiblePerson.Id;
 
-            EquipmentCategory equipmentCategory = _equipmentCategoryRepository
-                .GetEquipmentCategoryByName(equipmentDTO.Category.Name);
-            List<Equipment> currentCategoryEquipments = _equipmentRepository
-                .GetEquipmentsByCategoryName(equipmentDTO.Category.Name);
-            equipmentCategory.CurrentCategoryEquipments = currentCategoryEquipments;
-            equipmentCategory.CurrentCategoryEquipments.Add(equipment);
-
+            equipment.EquipmentCategoryName = equipmentDTO.Category.Name;
+            
             Usage currentEquipmentUsage = _equipmentRepository
                 .GetEquipmentUsageByInventoryNumber(currentEquipment.InventoryNumber);
             Usage equipmentUsage = _mapper.Map(equipmentDTO.WhereUsed, currentEquipmentUsage);

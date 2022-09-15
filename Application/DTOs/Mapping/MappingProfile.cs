@@ -26,7 +26,6 @@ namespace Application.DTOs.Mapping
                 .ForMember(dst => dst.IncomingSubdivisions, opt => opt.NullSubstitute(null));
 
             this.CreateMap<EquipmentCategoryDTO, EquipmentCategory>()
-                .ForMember(dst => dst.EquipmentAmount, opt => opt.NullSubstitute(null))
                 .ForMember(dst => dst.CurrentCategoryEquipments, opt => opt.NullSubstitute(null));
 
             this.CreateMap<EquipmentDTO, Equipment>()

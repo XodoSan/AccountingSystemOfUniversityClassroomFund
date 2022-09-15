@@ -1,7 +1,7 @@
 using Application.DTOs.Mapping;
 using Application.Services.ClassroomFundService;
-using Application.Services.EquipmentCategoryService;
 using Application.Services.EquipmentService;
+using Application.Services.HistoryService;
 using Application.Services.WorkerService;
 using Application.Tools;
 using Domain.Constants;
@@ -24,13 +24,14 @@ public class Program
         builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
         builder.Services.AddScoped<IWorkerService, WorkerService>();
         builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();
-        builder.Services.AddScoped<IEquipmentCategoryService, EquipmentCategoryService>();
         builder.Services.AddScoped<IEquipmentCategoryRepository, EquipmentCategoryRepository>();
+        builder.Services.AddScoped<IHistoryService, HistoryService>();
+        builder.Services.AddScoped<IHistoryRepository, HistoryRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         IConfiguration config = GetConfig();
         string connectionString = config.GetConnectionString(Constant.DatabaseName);
-        builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(connectionString, 
+        builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(connectionString,
             x => x.MigrationsAssembly("Infrastructure")));
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));

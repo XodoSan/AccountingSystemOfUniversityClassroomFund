@@ -23,12 +23,5 @@ namespace Infrastructure.Repositories
                 .Where(worker => worker.Id == workerId)
                 .First();
         }
-
-        public Worker GetWorkerByEquipment(Equipment equipment)
-        {
-            return _context.Set<Worker>()
-                .Where(worker => worker.CurrentWorkerEquipments.Contains(equipment))
-                .First();
-        }
     }
 }

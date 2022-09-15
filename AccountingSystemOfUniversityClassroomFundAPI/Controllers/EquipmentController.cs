@@ -1,6 +1,6 @@
 ﻿using Application.DTOs;
-using Application.Services.EquipmentCategoryService;
 using Application.Services.EquipmentService;
+using Application.Services.HistoryService;
 using Infrastructure.Tools;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +11,16 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
     public class EquipmentController : ControllerBase
     {
         private readonly IEquipmentService _equipmentService;
-        private readonly IEquipmentCategoryService _equipmentCategoryService;
+        private readonly IHistoryService _historyService;
         private readonly IUnitOfWork _unitOfWork;
 
         public EquipmentController(
-            IEquipmentService equipmentService, 
-            IEquipmentCategoryService equipmentCategoryService,
+            IEquipmentService equipmentService,
+            IHistoryService historyService,
             IUnitOfWork unitOfWork)
         {
             _equipmentService = equipmentService;
-            _equipmentCategoryService = equipmentCategoryService;
+            _historyService = historyService;
             _unitOfWork = unitOfWork;
         }
 
@@ -28,9 +28,6 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         public void AddEquipment([FromRoute] int roomNumber, [FromBody] EquipmentDTO equipmentDTO)
         {
             _equipmentService.AddEquipmentInRoom(roomNumber, equipmentDTO);
-            _unitOfWork.Commit();
-
-            _equipmentCategoryService.UpdateCurrentEquipmentCategoryAmount(equipmentDTO.Category.Name);
             _unitOfWork.Commit();
         }
 
@@ -46,18 +43,12 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         {
             _equipmentService.UpdateEquipment(roomNumber, equipmentDTO);
             _unitOfWork.Commit();
-
-            _equipmentCategoryService.UpdateAllEquipmentCategoryAmounts();
-            _unitOfWork.Commit();
         }
 
         [HttpDelete("delete/{equipmentInventoryNumber}")]
         public void DeleteEquipment([FromRoute] int equipmentInventoryNumber)
         {
             _equipmentService.DeleteEquipmentByInventoryNumber(equipmentInventoryNumber);
-            _unitOfWork.Commit();
-
-            _equipmentCategoryService.UpdateAllEquipmentCategoryAmounts();
             _unitOfWork.Commit();
         }
     }
