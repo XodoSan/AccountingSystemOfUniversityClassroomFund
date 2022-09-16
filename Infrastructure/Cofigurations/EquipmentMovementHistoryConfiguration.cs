@@ -12,9 +12,9 @@ namespace Infrastructure.Cofigurations
                 .HasKey(item => item.Id);
             builder.Property(item => item.Id).IsRequired();
             builder.Property(item => item.MovementTime).IsRequired();
-            builder.Property(item => item.CurrentRoomNumber).IsRequired();
-            builder.Property(item => item.PreviousRoomNumber);
+            builder.Property(item => item.RoomNumber).IsRequired();
             builder.Property(item => item.EquipmentInventoryNumber).IsRequired();
+            builder.Property(item => item.PreviousRoomNumber);
         }
     }
 }

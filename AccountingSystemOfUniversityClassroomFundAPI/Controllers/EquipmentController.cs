@@ -1,6 +1,5 @@
 ﻿using Application.DTOs;
 using Application.Services.EquipmentService;
-using Application.Services.HistoryService;
 using Infrastructure.Tools;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +10,13 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
     public class EquipmentController : ControllerBase
     {
         private readonly IEquipmentService _equipmentService;
-        private readonly IHistoryService _historyService;
         private readonly IUnitOfWork _unitOfWork;
 
         public EquipmentController(
             IEquipmentService equipmentService,
-            IHistoryService historyService,
             IUnitOfWork unitOfWork)
         {
             _equipmentService = equipmentService;
-            _historyService = historyService;
             _unitOfWork = unitOfWork;
         }
 

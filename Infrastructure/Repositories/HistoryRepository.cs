@@ -1,4 +1,5 @@
-﻿using Domain.Repositories;
+﻿using Domain.Entities;
+using Domain.Repositories;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Repositories
@@ -15,6 +16,17 @@ namespace Infrastructure.Repositories
         public IEnumerable<EntityEntry> GetEntitiesEntries()
         {
             return _context.ChangeTracker.Entries();
+        }
+
+        public void AddChangeWorkerHistoryItem(
+            EquipmentFinanciallyResponsiblePersonChangeHistory workerChangeHistoryItem)
+        {
+            _context.Set<EquipmentFinanciallyResponsiblePersonChangeHistory>().Add(workerChangeHistoryItem);
+        }
+
+        public void AddChangeMovementHistoryItem(EquipmentMovementHistory moveventChangeHistoryItem)
+        {
+            _context.Set<EquipmentMovementHistory>().Add(moveventChangeHistoryItem);
         }
     }
 }

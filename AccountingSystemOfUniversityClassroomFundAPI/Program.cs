@@ -1,7 +1,6 @@
 using Application.DTOs.Mapping;
 using Application.Services.ClassroomFundService;
 using Application.Services.EquipmentService;
-using Application.Services.HistoryService;
 using Application.Services.WorkerService;
 using Application.Tools;
 using Domain.Constants;
@@ -25,7 +24,6 @@ public class Program
         builder.Services.AddScoped<IWorkerService, WorkerService>();
         builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();
         builder.Services.AddScoped<IEquipmentCategoryRepository, EquipmentCategoryRepository>();
-        builder.Services.AddScoped<IHistoryService, HistoryService>();
         builder.Services.AddScoped<IHistoryRepository, HistoryRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

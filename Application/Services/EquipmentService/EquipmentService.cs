@@ -9,21 +9,27 @@ namespace Application.Services.EquipmentService
     {
         private readonly IEquipmentRepository _equipmentRepository;
         private readonly IWorkerRepository _workerRepository;
+        private readonly IHistoryRepository _historyRepository;
         private readonly IMapper _mapper;
 
         public EquipmentService(
             IEquipmentRepository equipmentRepository,
             IWorkerRepository workerRepository,
+            IHistoryRepository historyRepository,
             IMapper mapper)
         {
             _equipmentRepository = equipmentRepository;
             _workerRepository = workerRepository;
+            _historyRepository = historyRepository;
             _mapper = mapper;
         }
 
         public void AddEquipmentInRoom(int roomNumber, EquipmentDTO equipmentDTO)
         {
             Equipment equipment = _mapper.Map<Equipment>(equipmentDTO);
+
+            AddWorkerChangeHistory(equipmentDTO, equipment);
+            AddRoomChangeHistory(roomNumber, equipment, equipmentDTO);
             equipment.EquipmentRoomNumber = roomNumber;
 
             equipment.WhereUsed = _mapper.Map<Usage>(equipmentDTO.WhereUsed);
@@ -47,17 +53,27 @@ namespace Application.Services.EquipmentService
 
         public void UpdateEquipment(int roomNumber, EquipmentDTO equipmentDTO)
         {
-            Equipment currentEquipment = _equipmentRepository
+            Equipment previousEquipment = _equipmentRepository
                 .GetEquipmentByInventoryNumber(equipmentDTO.InventoryNumber);
-            Equipment equipment = _mapper.Map(equipmentDTO, currentEquipment);
+
+            if (equipmentDTO.FinanciallyResponsiblePerson.Id != previousEquipment.EquipmentWorkerId)
+            {
+                AddWorkerChangeHistory(equipmentDTO, previousEquipment);
+            }
+                
+            if (roomNumber != previousEquipment.EquipmentRoomNumber)
+            {
+                AddRoomChangeHistory(roomNumber, previousEquipment, equipmentDTO);
+            }
+                
+            Equipment equipment = _mapper.Map(equipmentDTO, previousEquipment);
             equipment.EquipmentRoomNumber = roomNumber;
 
             equipment.EquipmentWorkerId = equipmentDTO.FinanciallyResponsiblePerson.Id;
-
             equipment.EquipmentCategoryName = equipmentDTO.Category.Name;
             
             Usage currentEquipmentUsage = _equipmentRepository
-                .GetEquipmentUsageByInventoryNumber(currentEquipment.InventoryNumber);
+                .GetEquipmentUsageByInventoryNumber(previousEquipment.InventoryNumber);
             Usage equipmentUsage = _mapper.Map(equipmentDTO.WhereUsed, currentEquipmentUsage);
             equipmentUsage.EquipmentInventoryNumber = equipmentDTO.InventoryNumber;
         }
@@ -66,6 +82,28 @@ namespace Application.Services.EquipmentService
         {
             Equipment currentEquipment = _equipmentRepository.GetEquipmentByInventoryNumber(inventoryNumber);
             _equipmentRepository.DeleteEquipment(currentEquipment);
+        }
+
+        private void AddWorkerChangeHistory(EquipmentDTO equipmentDTO, Equipment previousEquipment)
+        {
+            EquipmentFinanciallyResponsiblePersonChangeHistory workerChangeHistoryItem = new(
+                     DateTime.Now,
+                     previousEquipment.EquipmentWorkerId,
+                     equipmentDTO.FinanciallyResponsiblePerson.Id,
+                     equipmentDTO.InventoryNumber);
+
+            _historyRepository.AddChangeWorkerHistoryItem(workerChangeHistoryItem);
+        }
+
+        private void AddRoomChangeHistory(int roomNumber, Equipment previousEquipment, EquipmentDTO equipmentDTO)
+        {
+            EquipmentMovementHistory movementHistoryItem = new(
+                    DateTime.Now,
+                    equipmentDTO.InventoryNumber,
+                    previousEquipment.EquipmentRoomNumber,
+                    roomNumber);
+
+            _historyRepository.AddChangeMovementHistoryItem(movementHistoryItem);
         }
     }
 }
