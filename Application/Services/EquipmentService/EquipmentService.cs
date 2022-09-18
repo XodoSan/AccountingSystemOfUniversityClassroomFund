@@ -1,11 +1,12 @@
 ﻿using Application.DTOs;
+using Application.Services.HistoryService;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Services.EquipmentService
 {
-    public class EquipmentService : IEquipmentService
+    public class EquipmentService : IEquipmentService, IHistoryService
     {
         private readonly IEquipmentRepository _equipmentRepository;
         private readonly IWorkerRepository _workerRepository;
@@ -84,6 +85,24 @@ namespace Application.Services.EquipmentService
             _equipmentRepository.DeleteEquipment(currentEquipment);
         }
 
+        public List<EquipmentMovementHistoryDTO> GetMovementHistory()
+        {
+            List<EquipmentMovementHistory> movementHistory = _historyRepository.GetMovementHistory();
+            List<EquipmentMovementHistoryDTO> movementHistoryDTO = _mapper
+                .Map<List<EquipmentMovementHistoryDTO>>(movementHistory);
+
+            return movementHistoryDTO;
+        }
+
+        public List<EquipmentFinanciallyResponsiblePersonChangeHistoryDTO> GetChangeWorkerHistory()
+        {
+            List<EquipmentFinanciallyResponsiblePersonChangeHistory> changeWorkerHistory = _historyRepository.GetChangeWorkerHistory();
+            List<EquipmentFinanciallyResponsiblePersonChangeHistoryDTO> changeWorkerHistoryDTO = _mapper
+                .Map<List<EquipmentFinanciallyResponsiblePersonChangeHistoryDTO>>(changeWorkerHistory);
+
+            return changeWorkerHistoryDTO;
+        }
+
         private void AddWorkerChangeHistory(EquipmentDTO equipmentDTO, Equipment previousEquipment)
         {
             EquipmentFinanciallyResponsiblePersonChangeHistory workerChangeHistoryItem = new(
@@ -99,11 +118,11 @@ namespace Application.Services.EquipmentService
         {
             EquipmentMovementHistory movementHistoryItem = new(
                     DateTime.Now,
-                    equipmentDTO.InventoryNumber,
                     previousEquipment.EquipmentRoomNumber,
-                    roomNumber);
+                    roomNumber,
+                    equipmentDTO.InventoryNumber);
 
-            _historyRepository.AddChangeMovementHistoryItem(movementHistoryItem);
+            _historyRepository.AddMovementHistoryItem(movementHistoryItem);
         }
     }
 }

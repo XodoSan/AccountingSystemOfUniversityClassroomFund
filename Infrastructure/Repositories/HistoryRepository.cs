@@ -1,6 +1,5 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infrastructure.Repositories
 {
@@ -13,20 +12,25 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public IEnumerable<EntityEntry> GetEntitiesEntries()
-        {
-            return _context.ChangeTracker.Entries();
-        }
-
         public void AddChangeWorkerHistoryItem(
             EquipmentFinanciallyResponsiblePersonChangeHistory workerChangeHistoryItem)
         {
             _context.Set<EquipmentFinanciallyResponsiblePersonChangeHistory>().Add(workerChangeHistoryItem);
         }
 
-        public void AddChangeMovementHistoryItem(EquipmentMovementHistory moveventChangeHistoryItem)
+        public void AddMovementHistoryItem(EquipmentMovementHistory moveventChangeHistoryItem)
         {
             _context.Set<EquipmentMovementHistory>().Add(moveventChangeHistoryItem);
+        }
+
+        public List<EquipmentFinanciallyResponsiblePersonChangeHistory> GetChangeWorkerHistory()
+        {
+            return _context.Set<EquipmentFinanciallyResponsiblePersonChangeHistory>().ToList();
+        }
+
+        public List<EquipmentMovementHistory> GetMovementHistory()
+        {
+            return _context.Set<EquipmentMovementHistory>().ToList();
         }
     }
 }

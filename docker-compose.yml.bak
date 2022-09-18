@@ -1,0 +1,35 @@
+version: "3.9"
+
+networks:
+  dockerapi-dev:
+    driver: bridge
+
+services:
+  dockerapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - "db"
+    ports:
+      - "8000:80"
+    environment:
+      DB_CONNECTION_STRING: "host=db;port:5433;database=universityclassroomfund;username=postgres;password=magic"
+    image: "accountingsystemofuniversityclassroomfundapi"
+    networks: 
+      - dockerapi-dev    
+  db:
+    image: postgres:14.1-alpine 
+    restart: always
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "magic"
+      POSTGRES_DB: "universityclassroomfund"
+    ports:
+      - "5433:5432"
+    volumes: 
+      - db_volume:/var/lib/postgresql/data
+    networks: 
+      - dockerapi-dev
+volumes:
+  db_volume:

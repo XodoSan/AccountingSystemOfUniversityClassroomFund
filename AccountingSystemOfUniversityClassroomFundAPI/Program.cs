@@ -1,6 +1,7 @@
 using Application.DTOs.Mapping;
 using Application.Services.ClassroomFundService;
 using Application.Services.EquipmentService;
+using Application.Services.HistoryService;
 using Application.Services.WorkerService;
 using Application.Tools;
 using Domain.Constants;
@@ -19,7 +20,9 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddScoped<IClassroomFundService, ClassroomFundService>();
         builder.Services.AddScoped<IClassroomFundRepository, ClassroomFundRepository>();
-        builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+        builder.Services.AddTransient<EquipmentService>();
+        builder.Services.AddTransient<IEquipmentService>(item => item.GetRequiredService<EquipmentService>());
+        builder.Services.AddTransient<IHistoryService>(item => item.GetRequiredService<EquipmentService>());
         builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
         builder.Services.AddScoped<IWorkerService, WorkerService>();
         builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();

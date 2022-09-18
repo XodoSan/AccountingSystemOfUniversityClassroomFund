@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingSystemOfUniversityClassroomFundAPI", "AccountingSystemOfUniversityClassroomFundAPI\AccountingSystemOfUniversityClassroomFundAPI.csproj", "{CAE9F358-2A6F-4C69-BADF-ADF2C812E530}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountingSystemOfUniversityClassroomFundAPI", "AccountingSystemOfUniversityClassroomFundAPI\AccountingSystemOfUniversityClassroomFundAPI.csproj", "{CAE9F358-2A6F-4C69-BADF-ADF2C812E530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{F08252BD-B292-47D7-8CB4-D94CD6A8D1AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{F08252BD-B292-47D7-8CB4-D94CD6A8D1AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{87694063-CF05-46E9-B6F2-D3EC3E59253D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{87694063-CF05-46E9-B6F2-D3EC3E59253D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{2CB58DF5-0363-46F8-BD2A-81F9B4125C45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{2CB58DF5-0363-46F8-BD2A-81F9B4125C45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

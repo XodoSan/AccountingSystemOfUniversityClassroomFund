@@ -39,6 +39,11 @@ namespace Application.DTOs.Mapping
 
             this.CreateMap<WorkerDTO, Worker>()
                 .ForMember(dst => dst.CurrentWorkerEquipments, opt => opt.NullSubstitute(null));
+
+            this.CreateMap<EquipmentMovementHistory, EquipmentMovementHistoryDTO>();
+
+            this.CreateMap<EquipmentFinanciallyResponsiblePersonChangeHistory, 
+                EquipmentFinanciallyResponsiblePersonChangeHistoryDTO>();
         }
     }
 }
