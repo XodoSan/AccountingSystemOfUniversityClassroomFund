@@ -9,6 +9,14 @@ namespace Application.DTOs.Mapping
         public MappingProfile()
         {
             this.CreateMap<RoomDTO, Room>()
+                .ForMember(dst => dst.Number, 
+                opt => opt.MapFrom(src => Convert.ToInt32(src.Number)))
+                .ForMember(dst => dst.Capacity, 
+                opt => opt.MapFrom(src => Convert.ToInt32(src.Capacity)))
+                .ForMember(dst => dst.Area, 
+                opt => opt.MapFrom(src => Convert.ToInt32(src.Area)))
+                .ForMember(dst => dst.Floor, 
+                opt => opt.MapFrom(src => Convert.ToInt32(src.Floor)))
                 .ForMember(dst => dst.SubdivisionName,
                 opt => opt.MapFrom(src => src.Owner.Name))
                 .ForMember(dst => dst.Purpose,

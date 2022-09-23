@@ -21,8 +21,8 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         }
 
         [HttpPost("add/room/{universityName}")]
-        public void AddRoom([FromRoute] string universityName, [FromBody] RoomDTO roomDTO)
-        {
+        public void AddRoom([FromRoute] string universityName, [FromForm] RoomDTO roomDTO)
+        {            
             _fundService.AddRoomInUniversity(universityName, roomDTO);
             _unitOfWork.Commit();
         }

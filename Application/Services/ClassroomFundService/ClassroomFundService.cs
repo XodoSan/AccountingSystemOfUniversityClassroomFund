@@ -1,11 +1,13 @@
 ﻿using Application.DTOs;
 using AutoMapper;
+using Domain.Constants;
 using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services.ClassroomFundService
 {
-    public class ClassroomFundService : IClassroomFundService
+    public class ClassroomFundService : IClassroomFundService, IFileService
     {
         private readonly IClassroomFundRepository _fundRepository;
         private readonly IMapper _mapper;
@@ -16,16 +18,17 @@ namespace Application.Services.ClassroomFundService
             _mapper = mapper;
         }
 
-        public List<Room> GetAllCurrentUniversityRooms(string universityName)
-        {
-            return _fundRepository.GetAllCurrentUniversityRooms(universityName);
-        }
-
         public void AddRoomInUniversity(string universityName, RoomDTO roomDTO)
         {
             Room room = _mapper.Map<Room>(roomDTO);
+
+            string currentFilePath = Constant.BaseFileAccessPath + universityName + "/Rooms/" + room.Number + "/";
+            Directory.CreateDirectory(currentFilePath);
+            AddFileInDirectory(roomDTO.FloorPlan, currentFilePath);
+
             room.UniversityName = universityName;
             room.Owner.UniversityName = universityName;
+            room.FloorPlan = currentFilePath;
 
             _fundRepository.AddRoom(room);
         }
@@ -34,6 +37,10 @@ namespace Application.Services.ClassroomFundService
         {
             UniversityBuilding universityBuilding = _mapper
                 .Map<UniversityBuilding>(universityBuildingDTO);
+
+            string currentFilePath = Constant.BaseFileAccessPath + universityBuilding.Name + "/Rooms/";
+            Directory.CreateDirectory(currentFilePath);
+
             _fundRepository.AddUniversityBuilding(universityBuilding);
         }
 
@@ -46,7 +53,7 @@ namespace Application.Services.ClassroomFundService
 
         public void UpdateRoom(string universityName, RoomDTO roomDTO)
         {
-            Room room = _fundRepository.GetRoomByNumber(roomDTO.Number);
+            Room room = _fundRepository.GetRoomByNumber(Convert.ToInt32(roomDTO.Number));
             _mapper.Map(roomDTO, room);
         }
 
@@ -59,13 +66,29 @@ namespace Application.Services.ClassroomFundService
         public void DeleteRoomByNumber(int roomNumber)
         {
             Room currentRoom = _fundRepository.GetRoomByNumber(roomNumber);
+
+            string currentFilePath = Constant.BaseFileAccessPath + currentRoom.UniversityName + "/" + roomNumber;
+            Directory.Delete(currentFilePath);
+
             _fundRepository.DeleteRoom(currentRoom);
         }
 
         public void DeleteUniversityBuildingByName(string universityName)
         {
+            string currentFilePath = Constant.BaseFileAccessPath + universityName;
+            Directory.Delete(currentFilePath);
+
             UniversityBuilding currentUniversity = _fundRepository.GetUniversityBuildingByName(universityName);
             _fundRepository.DeleteUniversityBuilding(currentUniversity);
+        }
+
+        public void AddFileInDirectory(IFormFile file, string currentFilePath)
+        {
+            using(Stream fileStream = new FileStream(currentFilePath + file.FileName, FileMode.Create))
+            {
+                file.CopyToAsync(fileStream);
+                fileStream.Close();
+            }
         }
     }
 }

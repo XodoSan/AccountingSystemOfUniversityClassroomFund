@@ -1,4 +1,5 @@
 using Application.DTOs.Mapping;
+using Application.Services;
 using Application.Services.ClassroomFundService;
 using Application.Services.EquipmentService;
 using Application.Services.HistoryService;
@@ -18,7 +19,9 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
-        builder.Services.AddScoped<IClassroomFundService, ClassroomFundService>();
+        builder.Services.AddTransient<ClassroomFundService>();
+        builder.Services.AddTransient<IClassroomFundService>(item => item.GetRequiredService<ClassroomFundService>());
+        builder.Services.AddTransient<IFileService>(item => item.GetRequiredService<ClassroomFundService>());
         builder.Services.AddScoped<IClassroomFundRepository, ClassroomFundRepository>();
         builder.Services.AddTransient<EquipmentService>();
         builder.Services.AddTransient<IEquipmentService>(item => item.GetRequiredService<EquipmentService>());
@@ -40,6 +43,7 @@ public class Program
         var app = builder.Build();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+        app.UseDefaultFiles();
         app.UseStaticFiles();
         app.UseRouting();
 
@@ -47,7 +51,7 @@ public class Program
         {
             endpoints.MapControllers();
         });
-
+        
         app.Run();
     }
 
