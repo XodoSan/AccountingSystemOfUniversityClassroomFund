@@ -42,9 +42,9 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         }
 
         [HttpPut("update/room/{universityName}")]
-        public void UpdateRoom([FromRoute] string universityName, [FromBody] RoomDTO roomDTO)
+        public void UpdateRoom([FromForm] RoomDTO roomDTO)
         {
-            _fundService.UpdateRoom(universityName, roomDTO);
+            _fundService.UpdateRoom(roomDTO);
             _unitOfWork.Commit();
         }
 

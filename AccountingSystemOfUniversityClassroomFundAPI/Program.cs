@@ -2,7 +2,6 @@ using Application.DTOs.Mapping;
 using Application.Services;
 using Application.Services.ClassroomFundService;
 using Application.Services.EquipmentService;
-using Application.Services.HistoryService;
 using Application.Services.WorkerService;
 using Application.Tools;
 using Domain.Constants;
@@ -39,13 +38,13 @@ public class Program
             x => x.MigrationsAssembly("Infrastructure")));
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));
+        builder.Services.AddCorsExtension(config);
 
         var app = builder.Build();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-        app.UseDefaultFiles();
-        app.UseStaticFiles();
         app.UseRouting();
+        app.UseCorsCorsExtension();
 
         app.UseEndpoints(endpoints =>
         {
@@ -62,5 +61,32 @@ public class Program
             .AddJsonFile("appsettings.json");
 
         return builder.Build();
+    }
+}
+
+public static class CorsExtensions
+{
+    private const string GlobalAllowCorsPolicy = "GlobalAllowCorsPolicy";
+
+    public static IServiceCollection AddCorsExtension(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var origins = configuration.GetSection("CORS:Origins").Get<ICollection<string>>();
+
+        services.AddCors(options => options.AddPolicy(
+            name: GlobalAllowCorsPolicy,
+            policy => policy
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowAnyOrigin()));
+
+        return services;
+    }
+
+    public static WebApplication UseCorsCorsExtension(this WebApplication app)
+    {
+        app.UseCors(GlobalAllowCorsPolicy);
+        return app;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Application.DTOs;
-using Application.Services.HistoryService;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
@@ -85,27 +84,27 @@ namespace Application.Services.EquipmentService
             _equipmentRepository.DeleteEquipment(currentEquipment);
         }
 
-        public List<EquipmentMovementHistoryDTO> GetMovementHistory()
+        public List<EquipmentMovementHistoryItemDTO> GetMovementHistory()
         {
-            List<EquipmentMovementHistory> movementHistory = _historyRepository.GetMovementHistory();
-            List<EquipmentMovementHistoryDTO> movementHistoryDTO = _mapper
-                .Map<List<EquipmentMovementHistoryDTO>>(movementHistory);
+            List<EquipmentMovementHistoryItem> movementHistory = _historyRepository.GetMovementHistory();
+            List<EquipmentMovementHistoryItemDTO> movementHistoryDTO = _mapper
+                .Map<List<EquipmentMovementHistoryItemDTO>>(movementHistory);
 
             return movementHistoryDTO;
         }
 
-        public List<EquipmentFinanciallyResponsiblePersonChangeHistoryDTO> GetChangeWorkerHistory()
+        public List<EquipmentFinanciallyResponsiblePersonChangeHistoryItemDTO> GetChangeWorkerHistory()
         {
-            List<EquipmentFinanciallyResponsiblePersonChangeHistory> changeWorkerHistory = _historyRepository.GetChangeWorkerHistory();
-            List<EquipmentFinanciallyResponsiblePersonChangeHistoryDTO> changeWorkerHistoryDTO = _mapper
-                .Map<List<EquipmentFinanciallyResponsiblePersonChangeHistoryDTO>>(changeWorkerHistory);
+            List<EquipmentFinanciallyResponsiblePersonChangeHistoryItem> changeWorkerHistory = _historyRepository.GetChangeWorkerHistory();
+            List<EquipmentFinanciallyResponsiblePersonChangeHistoryItemDTO> changeWorkerHistoryDTO = _mapper
+                .Map<List<EquipmentFinanciallyResponsiblePersonChangeHistoryItemDTO>>(changeWorkerHistory);
 
             return changeWorkerHistoryDTO;
         }
 
         private void AddWorkerChangeHistory(EquipmentDTO equipmentDTO, Equipment previousEquipment)
         {
-            EquipmentFinanciallyResponsiblePersonChangeHistory workerChangeHistoryItem = new(
+            EquipmentFinanciallyResponsiblePersonChangeHistoryItem workerChangeHistoryItem = new(
                      DateTime.Now,
                      previousEquipment.EquipmentWorkerId,
                      equipmentDTO.FinanciallyResponsiblePerson.Id,
@@ -116,7 +115,7 @@ namespace Application.Services.EquipmentService
 
         private void AddRoomChangeHistory(int roomNumber, Equipment previousEquipment, EquipmentDTO equipmentDTO)
         {
-            EquipmentMovementHistory movementHistoryItem = new(
+            EquipmentMovementHistoryItem movementHistoryItem = new(
                     DateTime.Now,
                     previousEquipment.EquipmentRoomNumber,
                     roomNumber,

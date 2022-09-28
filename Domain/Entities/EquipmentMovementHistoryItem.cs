@@ -1,23 +1,23 @@
 ﻿namespace Domain.Entities
 {
-    public class EquipmentMovementHistory
+    public class EquipmentMovementHistoryItem
     {
-        public EquipmentMovementHistory(
+        public EquipmentMovementHistoryItem(
             DateTime movementTime, 
             int previousRoomNumber, 
-            int roomNumber,
+            int currentRoomNumber,
             int equipmentInventoryNumber)
         {
             MovementTime = movementTime;
             PreviousRoomNumber = previousRoomNumber;
-            RoomNumber = roomNumber;
+            CurrentRoomNumber = currentRoomNumber;
             EquipmentInventoryNumber = equipmentInventoryNumber;
         }
 
         public int Id { get; protected set; }
         public DateTime MovementTime { get; set; }
         public int PreviousRoomNumber { get; set; }
-        public int RoomNumber { get; set; }
+        public int CurrentRoomNumber { get; set; }
         public int EquipmentInventoryNumber { get; set; }
     }
 }

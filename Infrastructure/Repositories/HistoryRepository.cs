@@ -13,24 +13,24 @@ namespace Infrastructure.Repositories
         }
 
         public void AddChangeWorkerHistoryItem(
-            EquipmentFinanciallyResponsiblePersonChangeHistory workerChangeHistoryItem)
+            EquipmentFinanciallyResponsiblePersonChangeHistoryItem workerChangeHistoryItem)
         {
-            _context.Set<EquipmentFinanciallyResponsiblePersonChangeHistory>().Add(workerChangeHistoryItem);
+            _context.Set<EquipmentFinanciallyResponsiblePersonChangeHistoryItem>().Add(workerChangeHistoryItem);
         }
 
-        public void AddMovementHistoryItem(EquipmentMovementHistory moveventChangeHistoryItem)
+        public void AddMovementHistoryItem(EquipmentMovementHistoryItem moveventChangeHistoryItem)
         {
-            _context.Set<EquipmentMovementHistory>().Add(moveventChangeHistoryItem);
+            _context.Set<EquipmentMovementHistoryItem>().Add(moveventChangeHistoryItem);
         }
 
-        public List<EquipmentFinanciallyResponsiblePersonChangeHistory> GetChangeWorkerHistory()
+        public List<EquipmentFinanciallyResponsiblePersonChangeHistoryItem> GetChangeWorkerHistory()
         {
-            return _context.Set<EquipmentFinanciallyResponsiblePersonChangeHistory>().ToList();
+            return _context.Set<EquipmentFinanciallyResponsiblePersonChangeHistoryItem>().ToList();
         }
 
-        public List<EquipmentMovementHistory> GetMovementHistory()
+        public List<EquipmentMovementHistoryItem> GetMovementHistory()
         {
-            return _context.Set<EquipmentMovementHistory>().ToList();
+            return _context.Set<EquipmentMovementHistoryItem>().ToList();
         }
     }
 }

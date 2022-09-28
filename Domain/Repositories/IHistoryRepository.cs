@@ -4,9 +4,9 @@ namespace Domain.Repositories
 {
     public interface IHistoryRepository
     {
-        public void AddChangeWorkerHistoryItem(EquipmentFinanciallyResponsiblePersonChangeHistory workerChangeHistoryItem);
-        public void AddMovementHistoryItem(EquipmentMovementHistory moveventChangeHistoryItem);
-        public List<EquipmentFinanciallyResponsiblePersonChangeHistory> GetChangeWorkerHistory();
-        public List<EquipmentMovementHistory> GetMovementHistory();
+        public void AddChangeWorkerHistoryItem(EquipmentFinanciallyResponsiblePersonChangeHistoryItem workerChangeHistoryItem);
+        public void AddMovementHistoryItem(EquipmentMovementHistoryItem moveventChangeHistoryItem);
+        public List<EquipmentFinanciallyResponsiblePersonChangeHistoryItem> GetChangeWorkerHistory();
+        public List<EquipmentMovementHistoryItem> GetMovementHistory();
     }
 }

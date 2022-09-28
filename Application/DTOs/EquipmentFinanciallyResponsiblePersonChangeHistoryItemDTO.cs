@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs
 {
-    public class EquipmentFinanciallyResponsiblePersonChangeHistoryDTO
+    public class EquipmentFinanciallyResponsiblePersonChangeHistoryItemDTO
     {
         public int Id { get; protected set; }
         public DateTime ChangeTime { get; set; }

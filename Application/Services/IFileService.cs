@@ -4,6 +4,6 @@ namespace Application.Services
 {
     public interface IFileService
     {
-        public void AddFileInDirectory(IFormFile file, string currentFilePath);
+        public byte[] ConvertFileToByteArray(IFormFile file);
     }
 }

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Cofigurations
 {
     public class FinanciallyResponsiblePersonChangeHistoryConfiguration 
-        : IEntityTypeConfiguration<EquipmentFinanciallyResponsiblePersonChangeHistory>
+        : IEntityTypeConfiguration<EquipmentFinanciallyResponsiblePersonChangeHistoryItem>
     {
-        public void Configure(EntityTypeBuilder<EquipmentFinanciallyResponsiblePersonChangeHistory> builder)
+        public void Configure(EntityTypeBuilder<EquipmentFinanciallyResponsiblePersonChangeHistoryItem> builder)
         {
-            builder.ToTable(nameof(EquipmentFinanciallyResponsiblePersonChangeHistory))
+            builder.ToTable(nameof(EquipmentFinanciallyResponsiblePersonChangeHistoryItem))
                 .HasKey(item => item.Id);
             builder.Property(item => item.Id).IsRequired();
             builder.Property(item => item.ChangeTime).IsRequired();

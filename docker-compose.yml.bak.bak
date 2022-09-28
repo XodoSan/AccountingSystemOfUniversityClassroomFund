@@ -7,7 +7,6 @@ networks:
 services:
   dockerapi:
     depends_on:
-      - "dockerapp"
       - "db"
     ports:
       - "8000:80"
@@ -20,8 +19,6 @@ services:
     ports:
       - "8001:80"
     image: "xodosan/accountingsystemofuniversityclassroomfundapp"
-    networks: 
-      - dockerapi-dev  
   db:
     image: postgres:14.1-alpine 
     restart: always

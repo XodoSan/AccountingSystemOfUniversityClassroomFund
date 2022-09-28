@@ -1,8 +1,8 @@
 ﻿namespace Domain.Entities
 {
-    public class EquipmentFinanciallyResponsiblePersonChangeHistory
+    public class EquipmentFinanciallyResponsiblePersonChangeHistoryItem
     {
-        public EquipmentFinanciallyResponsiblePersonChangeHistory(
+        public EquipmentFinanciallyResponsiblePersonChangeHistoryItem(
             DateTime changeTime, 
             int previousFinanciallyResponsiblePersonId, 
             int currentFinanciallyResponsiblePersonId,

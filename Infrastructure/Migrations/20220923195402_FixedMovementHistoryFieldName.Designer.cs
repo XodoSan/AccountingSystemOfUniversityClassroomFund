@@ -4,6 +4,7 @@ using Domain.Constants;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,13 +13,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220923195402_FixedMovementHistoryFieldName")]
+    partial class FixedMovementHistoryFieldName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "purpose", new[] { "educational", "no_educational" });
@@ -147,6 +149,10 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Floor")
                         .HasColumnType("integer");
 
+                    b.Property<string>("FloorPlan")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -172,33 +178,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UniversityName");
 
                     b.ToTable("Room", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.RoomFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<byte[]>("Content")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<int>("CurrentRoomNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrentRoomNumber")
-                        .IsUnique();
-
-                    b.ToTable("RoomFile");
                 });
 
             modelBuilder.Entity("Domain.Entities.Subdivision", b =>
@@ -325,15 +304,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Entities.RoomFile", b =>
-                {
-                    b.HasOne("Domain.Entities.Room", null)
-                        .WithOne("FloorPlan")
-                        .HasForeignKey("Domain.Entities.RoomFile", "CurrentRoomNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Entities.Subdivision", b =>
                 {
                     b.HasOne("Domain.Entities.UniversityBuilding", null)
@@ -374,9 +344,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Room", b =>
                 {
-                    b.Navigation("FloorPlan")
-                        .IsRequired();
-
                     b.Navigation("RoomEquipment");
                 });
 

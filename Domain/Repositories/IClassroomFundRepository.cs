@@ -7,6 +7,7 @@ namespace Domain.Repositories
         public List<Room> GetAllCurrentUniversityRooms(string universityName);
         public Room GetRoomByNumber(int roomNumber);
         public UniversityBuilding GetUniversityBuildingByName(string universityName);
+        public RoomFile GetRoomFileByRoomNumber(int roomNumber);
         public void AddRoom(Room room);
         public void AddUniversityBuilding(UniversityBuilding universityBuilding);
         public void AddSubdivision(Subdivision subdivision);

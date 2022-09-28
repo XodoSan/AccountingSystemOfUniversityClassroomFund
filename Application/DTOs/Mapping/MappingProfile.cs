@@ -9,13 +9,13 @@ namespace Application.DTOs.Mapping
         public MappingProfile()
         {
             this.CreateMap<RoomDTO, Room>()
-                .ForMember(dst => dst.Number, 
+                .ForMember(dst => dst.Number,
                 opt => opt.MapFrom(src => Convert.ToInt32(src.Number)))
-                .ForMember(dst => dst.Capacity, 
+                .ForMember(dst => dst.Capacity,
                 opt => opt.MapFrom(src => Convert.ToInt32(src.Capacity)))
-                .ForMember(dst => dst.Area, 
+                .ForMember(dst => dst.Area,
                 opt => opt.MapFrom(src => Convert.ToInt32(src.Area)))
-                .ForMember(dst => dst.Floor, 
+                .ForMember(dst => dst.Floor,
                 opt => opt.MapFrom(src => Convert.ToInt32(src.Floor)))
                 .ForMember(dst => dst.SubdivisionName,
                 opt => opt.MapFrom(src => src.Owner.Name))
@@ -23,7 +23,8 @@ namespace Application.DTOs.Mapping
                 opt => opt.MapFrom(src => Enum.Parse(typeof(Purpose), src.Purpose)))
                 .ForMember(dst => dst.RoomType,
                 opt => opt.MapFrom(src => Enum.Parse(typeof(RoomType), src.RoomType)))
-                .ForMember(dst => dst.RoomEquipment, opt => opt.NullSubstitute(null));
+                .ForMember(dst => dst.RoomEquipment, opt => opt.NullSubstitute(null))
+                .ForMember(dst => dst.FloorPlan, opt => opt.Ignore());
 
             this.CreateMap<SubdivisionDTO, Subdivision>()
                 .ForMember(dst => dst.IncomingWorkers, opt => opt.NullSubstitute(null))
@@ -48,10 +49,10 @@ namespace Application.DTOs.Mapping
             this.CreateMap<WorkerDTO, Worker>()
                 .ForMember(dst => dst.CurrentWorkerEquipments, opt => opt.NullSubstitute(null));
 
-            this.CreateMap<EquipmentMovementHistory, EquipmentMovementHistoryDTO>();
+            this.CreateMap<EquipmentMovementHistoryItem, EquipmentMovementHistoryItemDTO>();
 
-            this.CreateMap<EquipmentFinanciallyResponsiblePersonChangeHistory, 
-                EquipmentFinanciallyResponsiblePersonChangeHistoryDTO>();
+            this.CreateMap<EquipmentFinanciallyResponsiblePersonChangeHistoryItem, 
+                EquipmentFinanciallyResponsiblePersonChangeHistoryItemDTO>();
         }
     }
 }

@@ -33,6 +33,13 @@ namespace Infrastructure.Repositories
                 .First();
         }
 
+        public RoomFile GetRoomFileByRoomNumber(int roomNumber)
+        {
+            return _context.Set<RoomFile>()
+                .Where(file => file.CurrentRoomNumber == roomNumber)
+                .First();
+        }
+
         public void AddRoom(Room room)
         {
             _context.Set<Room>().Add(room);

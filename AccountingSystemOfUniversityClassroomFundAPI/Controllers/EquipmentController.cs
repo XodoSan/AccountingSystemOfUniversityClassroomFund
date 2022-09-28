@@ -1,6 +1,6 @@
 ﻿using Application.DTOs;
+using Application.Services;
 using Application.Services.EquipmentService;
-using Application.Services.HistoryService;
 using Infrastructure.Tools;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,13 +53,13 @@ namespace AccountingSystemOfUniversityClassroomFundAPI.Controllers
         }
 
         [HttpGet("get/movement_history")]
-        public List<EquipmentMovementHistoryDTO> GetWholeMovementHistory()
+        public List<EquipmentMovementHistoryItemDTO> GetWholeMovementHistory()
         {
             return _historyService.GetMovementHistory();
         }
 
         [HttpGet("get/worker_change_history")]
-        public List<EquipmentFinanciallyResponsiblePersonChangeHistoryDTO> GetWholeChangeWorkerHistory()
+        public List<EquipmentFinanciallyResponsiblePersonChangeHistoryItemDTO> GetWholeChangeWorkerHistory()
         {
             return _historyService.GetChangeWorkerHistory();
         }

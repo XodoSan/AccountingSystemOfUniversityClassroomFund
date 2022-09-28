@@ -10,6 +10,7 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
+      - "dockerapp"
       - "db"
     ports:
       - "8000:80"
@@ -17,7 +18,13 @@ services:
       DB_CONNECTION_STRING: "host=db;port:5433;database=universityclassroomfund;username=postgres;password=postgres"
     image: "accountingsystemofuniversityclassroomfundapi"
     networks: 
-      - dockerapi-dev    
+      - dockerapi-dev   
+  dockerapp:
+    ports:
+      - "8001:80"
+    image: "xodosan/accountingsystemofuniversityclassroomfundapp"
+    networks: 
+      - dockerapi-dev  
   db:
     image: postgres:14.1-alpine 
     restart: always
